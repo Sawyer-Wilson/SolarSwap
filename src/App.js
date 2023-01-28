@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from './components/layout/NavBar/Navbar';
-import Home from './views/Home/Home'
-import Buyer from './views/Buyer/Buyer'
-import Seller from './views/Seller/Seller'
+import Navbar from '@layouts/NavBar/Navbar';
+import Home from '@Home/Home'
+import Buyer from '@Buyer/Buyer'
+import Seller from '@Seller/Seller'
 
 // wrapper for navbar and page contents
 function App() {
