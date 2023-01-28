@@ -1,19 +1,12 @@
-import logo from './logo.svg';
-import './App.css';
-import Navbar from './Navbar';
-import Home from './Home';
+import Navbar from './navbar';
+import Page from './page';
 
+// wrapper for navbar and page contents
 function App() {
-  const title = 'Hello'
-  const link = "http://solarswap.net"
   return (
-    <div className="App">
-      <Navbar></Navbar>
-      <div className="content">
-        <Home />
-        <p> {title}</p>
-        <a href={link}>Link to a site</a>
-      </div>
+    <div className="app">
+      <Navbar />
+      <Page />
     </div>
   );
 }

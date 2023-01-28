@@ -1,0 +1,10 @@
+/* base page content styles */
+.page {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.page {
+  text-align: center;
+}
