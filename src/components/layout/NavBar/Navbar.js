@@ -1,15 +1,16 @@
 import './navbar.css';
+import { Link } from "react-router-dom";
 
 // navagation bar component
 function Navbar(){
   return (
     <nav className="navbar">
       <h1 id="nav-title">
-        <a href="/">SolarSwap</a>
+        <Link to="/">SolarSwap</Link>
       </h1>
       <div className="links">
-        <a href="/create"> Buyer</a>
-        <a href="/create"> Seller</a>
+        <Link to="/buyer">Buyer</Link>
+        <Link to="/seller">Seller</Link>
       </div>
     </nav>
   );
