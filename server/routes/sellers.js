@@ -1,3 +1,4 @@
+const { response } = require("express");
 const express = require("express");
 const router = express.Router();
 
@@ -10,7 +11,7 @@ const Seller = require("./../models/Seller");
 // TODO: 
 // - add contraints + check that user is not already registered 
 // - make sellerID auto incriment 
-router.post("/register", async (req, res) => {
+router.post("/", async (req, res) => {
   const { sellerID, firstName, lastName, email, energyListed } = req.body;
   
   let newSeller = new Seller({
@@ -21,25 +22,16 @@ router.post("/register", async (req, res) => {
     energyListed: energyListed
   });
 
-  newSeller.save()
-    .then((result) => {
-      console.log(result);
-      res.send("New seller added to database!")
-    })
-    .catch((err) => {
-      console.log(err);
-      res.send(err);
-    });
-  
+  await newSeller.save()
+    .then((result) => res.json(newSeller))
+    .catch((err) => res.send(err));
 });
 
 // Gets list of all sellers
 router.get("/", async (req, res) => {
-
-  console.log("getting list of all sellers...");
-
-  res.send("Here's a list of all the sellers: [john, jake, carly]");
-
+  await Seller.find({}, "sellerID firstName lastName email")
+    .then((sellers) => res.json(sellers))
+    .catch((err) => res.send(err));
 });
 
 /* ------------------------------------------------------------- */
