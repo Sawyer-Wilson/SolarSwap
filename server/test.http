@@ -1,0 +1,10 @@
+POST http://localhost:3002/sellers/register
+Content-Type: application/json
+
+{
+    "sellerID": "0",
+    "firstName": "randomF",
+    "lastName": "randomL",
+    "email": "email@email.com",
+    "energyListed": false
+}
