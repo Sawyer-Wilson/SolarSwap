@@ -1,7 +1,10 @@
 // setup express server
 const express = require("express")
 const app = express();
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT || 3002
+const dotenv = require('dotenv')
+
+dotenv.config()
 
 // express body parser for request objects
 app.use(express.json());
@@ -11,7 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 const mongoose = require("mongoose")
 const bodyParser = require("body-parser")
 mongoose.set('strictQuery', false);
-mongoose.connect("mongodb+srv://admin:vKj8V4k6rles2CDu@clustersolarswap.zpruhuy.mongodb.net/solarSwapDB?retryWrites=true&w=majority", {
+mongoose.connect(process.env.DATABASE_ACCESS, {
   useNewUrlParser: "true",
 })
 mongoose.connection.on("error", err => {
