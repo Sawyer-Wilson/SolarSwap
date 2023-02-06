@@ -1,7 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {Link} from 'react-router-dom';
-
-
 
 // TODO: 
 function SellerListings(){
@@ -20,8 +17,8 @@ function SellerListings(){
     return(
         <section>
         {
-            items.map(item => (
-                <div>
+            items.map((item, idx) => (
+                <div key={idx}>
                     <p>{item.name}</p>
                     <p>{item.energy}</p>
                 </div>

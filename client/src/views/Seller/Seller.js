@@ -1,5 +1,4 @@
-
-import SellerListings from '../../components/layouts/SellerListings'
+// import SellerListings from '../../components/layouts/SellerListings'
 import Signup from '../../components/layouts/Signup';
 import { useState, useEffect } from "react";
 import axios from 'axios';
@@ -20,7 +19,7 @@ const Seller = () => {
     <div className="seller">
       <h1>Seller Page</h1>
         <Signup></Signup>
-        <SellerListings></SellerListings>
+        {/* <SellerListings></SellerListings> */}
       <h2>List of Current Sellers:</h2>
       <ul>
         { sellers.map((seller, idx) => {
