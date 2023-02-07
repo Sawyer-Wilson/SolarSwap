@@ -5,8 +5,8 @@ const router = express.Router();
 
 router.get('/list_sellers', (req, res) => {
     const str = [{
-        "name": "grace",
-        "energy": "3"
+        "name": "",
+        "energy": ""
     }];
     res.end(JSON.stringify(str));
 });

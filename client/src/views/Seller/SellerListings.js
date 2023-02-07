@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 
-// TODO: 
 function SellerListings(){
     useEffect( () => {
         fetchItems();

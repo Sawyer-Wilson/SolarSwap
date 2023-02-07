@@ -1,4 +1,3 @@
-const { response } = require("express");
 const express = require("express");
 const router = express.Router();
 
@@ -7,7 +6,7 @@ const Seller = require("./../models/Seller");
 
 /* -------------------------- Endpoints ------------------------ */
 
-// Register a seller
+// Add a seller to the DB
 // TODO: 
 // - add contraints + check that user is not already registered 
 // - make sellerID auto incriment 
