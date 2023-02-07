@@ -1,30 +1,31 @@
 // setup express server
-const express = require("express")
+const express = require("express");
 const app = express();
-const PORT = process.env.PORT || 3002
-const dotenv = require('dotenv')
+const PORT = process.env.PORT || 3002;
 
-dotenv.config()
+// load environment variables 
+require('dotenv').config();
 
 // express body parser for request objects
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Setup MongoDB database connection through Mongoose
-const mongoose = require("mongoose")
-const bodyParser = require("body-parser")
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 mongoose.set('strictQuery', false);
-mongoose.connect(process.env.DATABASE_ACCESS, {
+const connectionString = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@clustersolarswap.zpruhuy.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
+mongoose.connect(connectionString, {
   useNewUrlParser: "true",
-})
+});
 mongoose.connection.on("error", err => {
   console.log("err", err)
-})
-mongoose.connection.on("connected", (err, res) => {
+});
+mongoose.connection.on("connected", () => {
   console.log("mongoose is connected")
-})
+});
 
-// Cors
+// Cors - TODO: make sure this works
 const cors = require("cors");
 app.use(
 	cors({

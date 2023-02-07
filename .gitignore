@@ -8,3 +8,4 @@ client/build
 
 # misc
 .DS_store
+server/.env
