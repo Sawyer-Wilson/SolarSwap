@@ -3,6 +3,8 @@ import Navbar from '@layouts/NavBar/Navbar';
 import Home from '@Home/Home'
 import Buyer from '@Buyer/Buyer'
 import Seller from '@Seller/Seller'
+import Register from '@Register/Register'
+import Dashboard from '@Dashboard/Dashboard'
 
 // wrapper for navbar and page contents
 function App() {
@@ -15,6 +17,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="buyer" element={<Buyer />} />
             <Route path="seller" element={<Seller />} />
+            <Route path="register" element={<Register />} />
+            <Route path="dashboard" element={<Dashboard />} />
           </Routes>
         </div>
       </div>

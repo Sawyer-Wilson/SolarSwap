@@ -36,7 +36,7 @@ app.use(
 
 // routes
 app.use("/sellers", require("./routes/sellers"));
-app.use("/listings", require("./routes/sellers_listings"));
+app.use("/energy-listings", require("./routes/energy-listings"));
 
 // start the server
 app.listen(PORT, console.log(`Server listing on PORT: ${PORT}`));
