@@ -61,7 +61,7 @@ class Signup extends Component {
             energyListed: this.state.energyListed
         }
 
-        axios.post('http://localhost:3002/sellers/', registered)
+        axios.post('/sellers/', registered)
             .then(res => console.log(res.data))
 
             this.setState({

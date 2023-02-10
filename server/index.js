@@ -25,18 +25,17 @@ mongoose.connection.on("connected", () => {
   console.log("mongoose is connected")
 });
 
-// Cors - TODO: make sure this works
-const cors = require("cors");
-app.use(
-	cors({
-		origin: ["http://localhost:3000"],  // TODO: add production link
-		credentials: true,
-	})
-);
-
 // routes
 app.use("/sellers", require("./routes/sellers"));
 app.use("/listings", require("./routes/sellers_listings"));
 
+// If in production environment ... serve static REACT files
+if (process.env.NODE_ENV === 'production') {
+  const path = require('path');
+  app.use(express.static(path.join(__dirname, '/../client/build')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname+'/../client/build/index.html'));
+  });
+}
 // start the server
 app.listen(PORT, console.log(`Server listing on PORT: ${PORT}`));
