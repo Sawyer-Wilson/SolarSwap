@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/gracejmccarthy/SolarSwap#readme",
   "dependencies": {
+    "@craco/craco": "^7.0.0",
     "concurrently": "^7.6.0"
   },
   "engines": {
