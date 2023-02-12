@@ -25,6 +25,12 @@ mongoose.connection.on("connected", () => {
   console.log("mongoose is connected")
 });
 
+// CORS
+// const cors = require('cors');
+// app.use(cors({
+//     origin: 'https://www.solarswap.org'
+// }));
+
 // routes
 app.use("/sellers", require("./routes/sellers"));
 app.use("/listings", require("./routes/sellers_listings"));
@@ -37,5 +43,6 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname+'/../client/build/index.html'));
   });
 }
+
 // start the server
 app.listen(PORT, console.log(`Server listing on PORT: ${PORT}`));
