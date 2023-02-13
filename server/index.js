@@ -3,6 +3,10 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3002;
 
+// use Helmet to secure HTTP headers
+const helmet = require("helmet");
+app.use(helmet());
+
 // load environment variables 
 require('dotenv').config();
 
