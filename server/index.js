@@ -3,6 +3,10 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3002;
 
+// use Helmet to secure HTTP headers
+const helmet = require("helmet");
+app.use(helmet());
+
 // load environment variables 
 require('dotenv').config();
 
@@ -27,7 +31,7 @@ mongoose.connection.on("connected", () => {
 
 // routes
 app.use("/sellers", require("./routes/sellers"));
-app.use("/listings", require("./routes/sellers_listings"));
+app.use("/energy-listings", require("./routes/energy-listings"));
 
 // If in production environment ... serve static REACT files
 if (process.env.NODE_ENV === 'production') {

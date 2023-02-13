@@ -1,15 +1,19 @@
 const express = require("express");
 const router = express.Router();
 
-// Load seller model
+// Load Seller model
 const Seller = require("./../models/Seller");
 
 /* -------------------------- Endpoints ------------------------ */
 
+// Gets list of all sellers
+router.get("/", async (req, res) => {
+  await Seller.find({}, "sellerID firstName lastName email")
+    .then((sellers) => res.json(sellers))
+    .catch((err) => res.send(err));
+});
+
 // Add a seller to the DB
-// TODO: 
-// - add contraints + check that user is not already registered 
-// - make sellerID auto incriment 
 router.post("/", async (req, res) => {
   const { sellerID, firstName, lastName, email, energyListed } = req.body;
   
@@ -23,13 +27,6 @@ router.post("/", async (req, res) => {
 
   await newSeller.save()
     .then((result) => res.json(newSeller))
-    .catch((err) => res.send(err));
-});
-
-// Gets list of all sellers
-router.get("/", async (req, res) => {
-  await Seller.find({}, "sellerID firstName lastName email")
-    .then((sellers) => res.json(sellers))
     .catch((err) => res.send(err));
 });
 
