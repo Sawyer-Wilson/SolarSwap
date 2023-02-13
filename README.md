@@ -19,7 +19,7 @@ Download the code by cloning the repository to your local device
     
 Enter the new project directory and install the required dependencies
 
-    cd SoldSwap
+    cd SolarSwap
     npm install
 
 ### Creating a .env file
