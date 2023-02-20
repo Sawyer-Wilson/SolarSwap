@@ -1,14 +1,13 @@
-import './navbar.css';
 import { Link } from "react-router-dom";
 
 // navagation bar component
 function Navbar(){
   return (
-    <nav className="navbar">
+    <nav>
       <h1 id="nav-title">
         <Link to="/">SolarSwap</Link>
       </h1>
-      <div className="links">
+      <div>
         <Link to="/buyer">Buyer</Link>
         <Link to="/seller">Seller</Link>
       </div>

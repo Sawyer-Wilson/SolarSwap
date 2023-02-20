@@ -13,4 +13,12 @@ module.exports = {
              '@layouts': path.resolve(__dirname, './src/components/layouts') 
             },
   },
+  style: {
+    postcss: {
+      plugins: [
+        require('tailwindcss'),
+        require('autoprefixer'),
+      ],
+    },
+  },
 };

@@ -10,9 +10,9 @@ import Dashboard from '@Dashboard/Dashboard'
 function App() {
   return (
     <Router>
-      <div className="app">
+      <div>
         <Navbar />
-        <div className="content">
+        <div>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="buyer" element={<Buyer />} />

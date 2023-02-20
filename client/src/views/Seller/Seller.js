@@ -1,6 +1,6 @@
 const Seller = () => {
   return ( 
-    <div className="seller">
+    <div>
       <h1>Seller Page</h1>
     </div>
    );
