@@ -9,14 +9,14 @@ const sellerSchema = new Mongoose.Schema({
 		required: true,
     lowercase: true,
     maxLength: 50,
-    match: "/^[a-z ,.'-]+$/i"
+    match: /^[a-z ,.'-]+$/i
 	},
 	lastName: {
 		type: String,
 		required: true,
     lowercase: true,
     maxLength: 50,
-    match: "/^[a-z ,.'-]+$/i"
+    match: /^[a-z ,.'-]+$/i
 	},
 	email: {
 		type: String,
@@ -24,7 +24,7 @@ const sellerSchema = new Mongoose.Schema({
     lowercase: true,
     minLength: 3,
     maxLength: 255,
-    match: "/^\S+@\S+\.\S+$/"
+    match: /^\S+@\S+\.\S+$/
 	}
 }, { timestamps: true });
 

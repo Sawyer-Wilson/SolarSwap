@@ -31,6 +31,7 @@ mongoose.connection.on("connected", () => {
 
 // routes
 app.use("/sellers", require("./routes/sellers"));
+app.use("/sellers/:id/offers", require("./routes/offers"));
 app.use("/energy-listings", require("./routes/energy-listings"));
 
 // If in production environment ... serve static REACT files
