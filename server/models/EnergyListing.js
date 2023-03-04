@@ -3,11 +3,11 @@ const Mongoose = require("mongoose");
 const energyListingSchema = new Mongoose.Schema({
 	sellerID: {
 		type: Mongoose.ObjectId,
+    required: true
 	},
-	isLive: {
+	isActive: {
 		type: Boolean,
 		required: true,
-    default: false
 	},
 	loadZoneID: {
 		type: Number,

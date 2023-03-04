@@ -31,12 +31,12 @@ router.post("/", async (req, res) => {
   const { energyListingID, firstName, lastName, email } = req.body;
   let error = {};
 
-  // Check to make sure seller does not already exist
+  // Check to make sure email is not already in use
   if (email) {
     await Seller.exists({ email: email })
       .then((sellerId) => {
         if (sellerId) {
-          error = { error: "User already exists" };
+          error = { error: "Email already in use" };
         }
       })
       .catch((err) => { error = err });
@@ -114,7 +114,7 @@ router.put("/:id", async (req, res) => {
 
 /* 
  * DELETE /sellers/:id
- * Deletes the seller with the specified ID and returns 
+ * Deletes the seller with the specified ID
  */
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
@@ -136,7 +136,9 @@ router.delete("/:id", async (req, res) => {
 
   // Delete seller from database
   await Seller.findByIdAndDelete(id)
-    .then(() => res.status(200).json({ message: `Deleted seller with id: ${id}` }))
+    .then(() => {
+      res.status(200).json({ message: `Deleted seller with id: ${id}` })
+    })
     .catch((err) => res.status(400).json(err));
 });
 
