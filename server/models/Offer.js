@@ -3,6 +3,7 @@ const Mongoose = require("mongoose");
 const offerSchema = new Mongoose.Schema({
 	sellerID: {
 		type: Mongoose.ObjectId,
+    required: true
 	},
 	email: {
 		type: String,
