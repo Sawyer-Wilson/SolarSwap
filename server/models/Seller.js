@@ -1,29 +1,30 @@
 const Mongoose = require("mongoose");
 
 const sellerSchema = new Mongoose.Schema({
-	sellerID: {
-		type: String,
-		default: "",
-		required: true,
+	energyListingID: {
+		type: Mongoose.ObjectId,
 	},
 	firstName: {
 		type: String,
-		default: "",
 		required: true,
+    lowercase: true,
+    maxLength: 50,
+    match: /^[a-z ,.'-]+$/i
 	},
 	lastName: {
 		type: String,
-		default: "",
 		required: true,
+    lowercase: true,
+    maxLength: 50,
+    match: /^[a-z ,.'-]+$/i
 	},
 	email: {
 		type: String,
-		default: "",
-    required: true
-	},
-	energyListing: {
-		type: Boolean,
-    default: false,
+    required: true,
+    lowercase: true,
+    minLength: 3,
+    maxLength: 255,
+    match: /^\S+@\S+\.\S+$/
 	}
 }, { timestamps: true });
 
