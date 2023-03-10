@@ -97,6 +97,7 @@ router.put("/:id", async (req, res) => {
         } = req.body;
   const { id } = req.params;
   let error = {};
+  let errorCode = 400;
 
   // Ensure energy listing exists
   let listing;
@@ -104,6 +105,7 @@ router.put("/:id", async (req, res) => {
     .then((foundListing) => {
       if (!foundListing) {
         error = { message: `No energy listing found with id: ${id}` };
+        errorCode = 404;
       } else {
         listing = foundListing;
       }
@@ -112,7 +114,7 @@ router.put("/:id", async (req, res) => {
 
   // Return immediately if any errors were found
   if (Object.keys(error).length > 0) {
-    return res.status(400).json(error);
+    return res.status(errorCode).json(error);
   }
 
   // Update fields
@@ -139,25 +141,27 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   let error = {};
+  let errorCode = 400;
 
   // Ensure listing exists
   await EnergyListing.exists({ _id: id})
     .then((listingId) => {
       if (!listingId) {
         error = { message: `No Energy Listing found with id: ${id}` };
+        errorCode = 404;
       }
     })
     .catch((err) => { error = err });
 
     // Return immediately if any errors were found
     if (Object.keys(error).length > 0) {
-      return res.status(400).json(error);
+      return res.status(errorCode).json(error);
     }
 
   // Delete energy listing from database
   await EnergyListing.findByIdAndDelete(id)
     .then(() => {
-      res.status(200).json({ message: `Deleted Energy Listing with id: ${id}` })
+      res.status(200).json({ _id: id })
     })
     .catch((err) => res.status(400).json(err));
 });
