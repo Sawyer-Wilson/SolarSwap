@@ -8,10 +8,10 @@ const EnergyListing = require("./../models/EnergyListing");
 
 /* 
  * GET /energy-listings
- * Returns all active energy listings
+ * Returns all energy listings
  */
 router.get("/", async (req, res) => {
-  await EnergyListing.find({ isActive: true })
+  await EnergyListing.find()
     .then((energyListings) => {
       if (energyListings.length === 0) {
         res.status(404).json({ error: "No Energy Listings Found"});
@@ -45,7 +45,7 @@ router.get("/:id", async (req, res) => {
  * Adds a new energy listing to the Database and returns the created listing
  */
 router.post("/", async (req, res) => {
-  const { sellerID, isActive, loadZoneID, utilityCompany, annualProduction,
+  const { sellerID, loadZoneID, utilityCompany, annualProduction,
           annualConsumption, avgMonthlyOverage, plannedUsage, pctOverageToSell,
           askingRate } = req.body;
   let error = {};
@@ -69,7 +69,6 @@ router.post("/", async (req, res) => {
   // Create a new Energy Listing instance with the provided fields
   const newListing = new EnergyListing({
     sellerID: sellerID, 
-    isActive: isActive, 
     loadZoneID: loadZoneID, 
     utilityCompany: utilityCompany, 
     annualProduction: annualProduction,
@@ -93,9 +92,9 @@ router.post("/", async (req, res) => {
  * listing
  */
 router.put("/:id", async (req, res) => {
-  const { isActive, loadZoneID, utilityCompany, annualProduction,
-          annualConsumption, avgMonthlyOverage, plannedUsage, pctOverageToSell,
-          askingRate } = req.body;
+  const { loadZoneID, utilityCompany, annualProduction, annualConsumption, 
+          avgMonthlyOverage, plannedUsage, pctOverageToSell, askingRate 
+        } = req.body;
   const { id } = req.params;
   let error = {};
 
@@ -117,7 +116,6 @@ router.put("/:id", async (req, res) => {
   }
 
   // Update fields
-  if (typeof isActive == 'boolean') listing.isActive = isActive;
   if (loadZoneID) listing.loadZoneID = loadZoneID;
   if (utilityCompany) listing.utilityCompany = utilityCompany;
   if (annualProduction) listing.annualProduction = annualProduction;

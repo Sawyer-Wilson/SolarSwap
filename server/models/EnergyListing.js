@@ -5,10 +5,6 @@ const energyListingSchema = new Mongoose.Schema({
 		type: Mongoose.ObjectId,
     required: true
 	},
-	isActive: {
-		type: Boolean,
-		required: true,
-	},
 	loadZoneID: {
 		type: Number,
 		required: true
