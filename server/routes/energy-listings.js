@@ -11,15 +11,16 @@ const EnergyListing = require("./../models/EnergyListing");
  * Returns all energy listings
  */
 router.get("/", async (req, res) => {
-  await EnergyListing.find()
-    .then((energyListings) => {
-      if (energyListings.length === 0) {
-        res.status(404).json({ error: "No Energy Listings Found"});
-      } else {
-        res.status(200).json(energyListings);
-      }
-    })
-    .catch((err) => res.status(400).json(err));
+  try {
+    const listings = await EnergyListing.find();
+    if (listings.length === 0) {
+      res.status(404).json({ error: "No Energy Listings Found"});
+    } else {
+      res.status(200).json(listings);
+    }
+  } catch (error) {
+    res.status(400).json(error);
+  }
 });
 
 
@@ -28,15 +29,16 @@ router.get("/", async (req, res) => {
  * Returns the energy listing with the specified ID
  */
 router.get("/:id", async (req, res) => {
-  await EnergyListing.findById(req.params.id)
-    .then((energyListing) => {
-      if (energyListing) {
-        res.status(200).json(energyListing);
-      } else {
-        res.status(404).json({ error: "Energy Listing not found"});
-      }
-    })
-    .catch((err) => res.status(400).json(err));
+  try {
+    const listing = await EnergyListing.findById(req.params.id);
+    if (listing) {
+      res.status(200).json(listing);
+    } else {
+      res.status(404).json({ error: "Energy Listing not found"});
+    }
+  } catch (error) {
+    res.status(400).json(error);
+  }
 });
 
 
@@ -52,13 +54,14 @@ router.post("/", async (req, res) => {
 
   // Make sure there are no other listings associated with that seller
   if (sellerID) {
-    await EnergyListing.exists({ sellerID: sellerID })
-      .then((energyListingID) => {
-        if (energyListingID) {
-          error = { error: "SellerID already associated with an Energy Listing" };
-        }
-      })
-      .catch((err) => { error = err });
+    try {
+      const listingId = await EnergyListing.exists({ sellerID: sellerID });
+      if (listingId) {
+        error = { error: "SellerID already associated with an Energy Listing" };
+      }
+    } catch (err) {
+      error = err;
+    }
   }
 
   // Return immediately if any errors were found
@@ -80,9 +83,12 @@ router.post("/", async (req, res) => {
   });
 
   // Save the new Energy Listing in the database
-  await newListing.save()
-    .then((savedListing) => res.status(200).json(savedListing))
-    .catch((err) => res.status(400).json(err));
+  try {
+    const savedListing = await newListing.save();
+    res.status(200).json(savedListing);
+  } catch (error) {
+    res.status(400).json(error);
+  }
 });
 
 
@@ -101,16 +107,17 @@ router.put("/:id", async (req, res) => {
 
   // Ensure energy listing exists
   let listing;
-  await EnergyListing.findById(id)
-    .then((foundListing) => {
-      if (!foundListing) {
-        error = { message: `No energy listing found with id: ${id}` };
-        errorCode = 404;
-      } else {
-        listing = foundListing;
-      }
-    })
-    .catch((err) => { error = err });
+  try {
+    const foundListing = await EnergyListing.findById(id);
+    if (!foundListing) {
+      error = { message: `No energy listing found with id: ${id}` };
+      errorCode = 404;
+    } else {
+      listing = foundListing;
+    }
+  } catch (err) {
+    error = err;
+  }
 
   // Return immediately if any errors were found
   if (Object.keys(error).length > 0) {
@@ -128,9 +135,12 @@ router.put("/:id", async (req, res) => {
   if (askingRate) listing.askingRate = askingRate;
 
   // Save updated energy listing to database
-  await listing.save()
-    .then((listing) => res.status(200).json(listing))
-    .catch((err) => res.status(400).json(err));
+  try {
+    const updatedListing = await listing.save();
+    res.status(200).json(updatedListing);
+  } catch (error) {
+    res.status(400).json(error);
+  }
 });
 
 
@@ -144,26 +154,28 @@ router.delete("/:id", async (req, res) => {
   let errorCode = 400;
 
   // Ensure listing exists
-  await EnergyListing.exists({ _id: id})
-    .then((listingId) => {
-      if (!listingId) {
-        error = { message: `No Energy Listing found with id: ${id}` };
-        errorCode = 404;
-      }
-    })
-    .catch((err) => { error = err });
-
-    // Return immediately if any errors were found
-    if (Object.keys(error).length > 0) {
-      return res.status(errorCode).json(error);
+  try {
+    const listingId = await EnergyListing.exists({ _id: id});
+    if (!listingId) {
+      error = { message: `No Energy Listing found with id: ${id}` };
+      errorCode = 404;
     }
+  } catch (err) {
+    error = err;
+  }
+
+  // Return immediately if any errors were found
+  if (Object.keys(error).length > 0) {
+    return res.status(errorCode).json(error);
+  }
 
   // Delete energy listing from database
-  await EnergyListing.findByIdAndDelete(id)
-    .then(() => {
-      res.status(200).json({ _id: id })
-    })
-    .catch((err) => res.status(400).json(err));
+  try {
+    await EnergyListing.findByIdAndDelete(id);
+    res.status(200).json({ _id: id });
+  } catch (err) {
+    res.status(400).json(err);
+  }
 });
 
 /* ------------------------------------------------------------- */
