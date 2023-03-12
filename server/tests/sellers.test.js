@@ -90,6 +90,20 @@ describe("POST /sellers/", () => {
     });
   });
 
+  describe("when seller already exists in the database", () => {
+    // seed database with an example seller
+    beforeEach(async () => {
+      await Seller.create(sellers[0]);
+    });
+
+    it("should return 400 with an json error message", async () => {
+      await request(app).post(`/sellers`)
+        .send(sellers[0])
+        .expect('Content-Type', /json/)
+        .expect(400);
+    });
+  });
+
   describe("when given invalid seller parameters", () => {
     it("should return 400 with an json error message", async () => {
       await request(app).post(`/sellers`)
