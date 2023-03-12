@@ -11,15 +11,16 @@ const Seller = require("./../models/Seller");
  * Returns the seller with the specified ID
  */
 router.get("/:id", async (req, res) => {
-  await Seller.findById(req.params.id)
-    .then((seller) => {
-      if (seller) {
-        res.status(200).json(seller);
-      } else {
-        res.status(404).json({ error: "Seller not found"});
-      }
-    })
-    .catch((err) => res.status(400).json(err));
+  try {
+    const seller = await Seller.findById(req.params.id);
+    if (seller) {
+      res.status(200).json(seller);
+    } else {
+      res.status(404).json({ error: "Seller not found"});
+    }
+  } catch (error) {
+    res.status(400).json(error);
+  }
 });
 
 
@@ -33,13 +34,14 @@ router.post("/", async (req, res) => {
 
   // Check to make sure email is not already in use
   if (email) {
-    await Seller.exists({ email: email })
-      .then((sellerId) => {
-        if (sellerId) {
-          error = { error: "Email already in use" };
-        }
-      })
-      .catch((err) => { error = err });
+    try {
+      const sellerId = await Seller.exists({ email: email });
+      if (sellerId) {
+        error = { error: "Email already in use" };
+      }
+    } catch (err) {
+      error = err;
+    }
   }
 
   // Return immediately if any errors were found
@@ -56,9 +58,12 @@ router.post("/", async (req, res) => {
   });
 
   // Save the new seller in the database
-  await newSeller.save()
-    .then((savedSeller) => res.status(200).json(savedSeller))
-    .catch((err) => res.status(400).json(err));
+  try {
+    const savedSeller = await newSeller.save();
+    res.status(200).json(savedSeller);
+  } catch (error) {
+    res.status(400).json(error);
+  }
 });
 
 
@@ -70,33 +75,37 @@ router.put("/:id", async (req, res) => {
   const { energyListingID, firstName, lastName, email } = req.body;
   const { id } = req.params;
   let error = {};
+  let errorCode = 400;
 
   // Ensure seller exists
   let seller;
-  await Seller.findById(id)
-    .then((foundSeller) => {
-      if (!foundSeller) {
-        error = { message: `No seller found with id: ${id}` };
-      } else {
-        seller = foundSeller;
-      }
-    })
-    .catch((err) => { error = err });
+  try {
+    const foundSeller = await Seller.findById(id);
+    if (!foundSeller) {
+      error = { message: `No seller found with id: ${id}` };
+      errorCode = 404;
+    } else {
+      seller = foundSeller;
+    }
+  } catch (err) {
+    error = err;
+  }
 
   // Ensure email is unique
   if (email) {
-    await Seller.exists({ email: email })
-      .then((sellerId) => {
-        if (sellerId) {
-          error = { error: `Another user with email: ${email} already exists` };
-        }
-      })
-      .catch((err) => { error = err });
+    try {
+      const sellerId = await Seller.exists({ email: email });
+      if (sellerId) {
+        error = { error: `Another user with email: ${email} already exists` };
+      }
+    } catch (err) {
+      error = err;
+    }
   }
 
   // Return immediately if any errors were found
   if (Object.keys(error).length > 0) {
-    return res.status(400).json(error);
+    return res.status(errorCode).json(error);
   }
 
   // Update fields
@@ -106,9 +115,12 @@ router.put("/:id", async (req, res) => {
   if (email) seller.email = email;
 
   // Save updated seller to database
-  await seller.save()
-    .then((seller) => res.status(200).json(seller))
-    .catch((err) => res.status(400).json(err));
+  try {
+    const savedSeller = await seller.save();
+    res.status(200).json(savedSeller);
+  } catch (error) {
+    res.status(400).json(error);
+  }
 });
 
 
@@ -119,27 +131,31 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   let error = {};
+  let errorCode = 400;
 
   // Ensure seller exists
-  await Seller.exists({ _id: id})
-    .then((sellerId) => {
-      if (!sellerId) {
-        error = { message: `No seller found with id: ${id}` };
-      }
-    })
-    .catch((err) => { error = err });
-
-    // Return immediately if any errors were found
-    if (Object.keys(error).length > 0) {
-      return res.status(400).json(error);
+  try {
+    const sellerId = await Seller.exists({ _id: id});
+    if (!sellerId) {
+      error = { message: `No seller found with id: ${id}` };
+      errorCode = 404;
     }
+  } catch (err) {
+    error = err
+  }
+
+  // Return immediately if any errors were found
+  if (Object.keys(error).length > 0) {
+    return res.status(errorCode).json(error);
+  }
 
   // Delete seller from database
-  await Seller.findByIdAndDelete(id)
-    .then(() => {
-      res.status(200).json({ message: `Deleted seller with id: ${id}` })
-    })
-    .catch((err) => res.status(400).json(err));
+  try {
+    await Seller.findByIdAndDelete(id);
+    res.status(200).json({ _id: id });
+  } catch (error) {
+    res.status(400).json(error);
+  }
 });
 
 /* ------------------------------------------------------------- */
