@@ -8,28 +8,28 @@ module.exports.connect = async () => {
     + process.env.DB_NAME + '?retryWrites=true&w=majority';
 
   mongoose.set('strictQuery', false);
-  await mongoose.connect(connectionString, {useNewUrlParser: "true"});
-
-  // Wipe database for a clean testing slate 
-  const collections = mongoose.connection.collections;
-
-  for (const key in collections) {
-      const collection = collections[key];
-      await collection.deleteMany();
+  try {
+    await mongoose.connect(connectionString, {useNewUrlParser: "true"});
+  } catch (error) {
+    process.exit(error);
   }
 }
 
 // Disconnect from the testing database
 module.exports.disconnect = async () => {
-  await mongoose.connection.close();
+  try {
+    await mongoose.connection.db.dropDatabase();
+    await mongoose.connection.close();
+  } catch (error) {
+    process.exit(error);
+  }
 }
 
 // Remove all data stored in testing database
 module.exports.clear = async () => {
-  const collections = mongoose.connection.collections;
-
-   for (const key in collections) {
-       const collection = collections[key];
-       await collection.deleteMany();
-   }
+  try {
+    await mongoose.connection.db.dropDatabase();
+  } catch (error) {
+    process.exit(error);
+  }
 }
