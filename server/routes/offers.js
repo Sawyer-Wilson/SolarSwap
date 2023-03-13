@@ -11,15 +11,16 @@ const Offer = require("./../models/Offer");
  * Returns all the offers of the seller with the specified ID
  */
 router.get("/", async (req, res) => {
-  await Offer.find({ sellerID: req.params.id })
-    .then((offers) => {
-      if (offers.length === 0) {
-        res.status(404).json({ error: "No Offers Found for specified seller" });
-      } else {
-        res.status(200).json(offers);
-      }
-    })
-    .catch((err) => res.status(400).json(err));
+  try {
+    const offers = await Offer.find({ sellerID: req.params.id });
+    if (offers.length === 0) {
+      res.status(404).json({ error: "No Offers Found for specified seller" });
+    } else {
+      res.status(200).json(offers);
+    }
+  } catch (error) {
+    res.status(400).json(error);
+  }
 });
 
 /* 
@@ -38,9 +39,12 @@ router.post("/", async (req, res) => {
   });
 
   // Save the new offer in the database
-  await newOffer.save()
-    .then((savedOffer) => res.status(200).json(savedOffer))
-    .catch((err) => res.status(400).json(err));
+  try {
+    const savedOffer = await newOffer.save();
+    res.status(200).json(savedOffer);
+  } catch (error) {
+    res.status(400).json(error)
+  }
 });
 
 /* 
@@ -50,27 +54,31 @@ router.post("/", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   let error = {};
+  let errorCode = 400;
 
   // Ensure offer exists
-  await Offer.exists({ _id: id})
-    .then((offerId) => {
-      if (!offerId) {
-        error = { message: `No offer found with id: ${id}` };
-      }
-    })
-    .catch((err) => { error = err });
-
-    // Return immediately if any errors were found
-    if (Object.keys(error).length > 0) {
-      return res.status(400).json(error);
+  try {
+    const offerId = await Offer.exists({ _id: id});
+    if (!offerId) {
+      error = { message: `No offer found with id: ${id}` };
+      errorCode = 404;
     }
+  } catch (err) {
+    error = err;
+  }
+
+  // Return immediately if any errors were found
+  if (Object.keys(error).length > 0) {
+    return res.status(errorCode).json(error);
+  }
 
   // Delete offer from database
-  await Offer.findByIdAndDelete(id)
-    .then(() => {
-      res.status(200).json({ message: `Deleted offer with id: ${id}` })
-    })
-    .catch((err) => res.status(400).json(err));
+  try {
+    await Offer.findByIdAndDelete(id);
+    res.status(200).json({ _id: id });
+  } catch (error) {
+    res.status(400).json(err);
+  }
 });
 
 /* ------------------------------------------------------------- */
