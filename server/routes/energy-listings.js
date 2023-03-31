@@ -1,4 +1,5 @@
 const express = require("express");
+const requireLogin = require("../middleware/requireLogin");
 const router = express.Router();
 
 // Load SellerListing model
@@ -28,7 +29,7 @@ router.get("/", async (req, res) => {
  * GET /energy-listings/:id
  * Returns the energy listing with the specified ID
  */
-router.get("/:id", async (req, res) => {
+router.get("/:id", requireLogin, async (req, res) => {
   try {
     const listing = await EnergyListing.findById(req.params.id);
     if (listing) {
@@ -46,7 +47,7 @@ router.get("/:id", async (req, res) => {
  * POST /energy-listings
  * Adds a new energy listing to the Database and returns the created listing
  */
-router.post("/", async (req, res) => {
+router.post("/", requireLogin, async (req, res) => {
   const { sellerID, loadZoneID, utilityCompany, annualProduction,
           annualConsumption, avgMonthlyOverage, plannedUsage, pctOverageToSell,
           askingRate } = req.body;
@@ -97,7 +98,7 @@ router.post("/", async (req, res) => {
  * Updates the energy listing with the specified ID and returns the updated 
  * listing
  */
-router.put("/:id", async (req, res) => {
+router.put("/:id", requireLogin, async (req, res) => {
   const { loadZoneID, utilityCompany, annualProduction, annualConsumption, 
           avgMonthlyOverage, plannedUsage, pctOverageToSell, askingRate 
         } = req.body;
@@ -148,7 +149,7 @@ router.put("/:id", async (req, res) => {
  * DELETE /energy-listings/:id
  * Deletes the energy listing with the specified ID
  */
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", requireLogin, async (req, res) => {
   const { id } = req.params;
   let error = {};
   let errorCode = 400;

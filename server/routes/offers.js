@@ -1,4 +1,5 @@
 const express = require("express");
+const requireLogin = require("../middleware/requireLogin");
 const router = express.Router({mergeParams: true});
 
 // Load Offer model
@@ -10,7 +11,7 @@ const Offer = require("./../models/Offer");
  * GET /sellers/:id/offers
  * Returns all the offers of the seller with the specified ID
  */
-router.get("/", async (req, res) => {
+router.get("/", requireLogin, async (req, res) => {
   try {
     const offers = await Offer.find({ sellerID: req.params.id });
     if (offers.length === 0) {
@@ -28,7 +29,7 @@ router.get("/", async (req, res) => {
  * Adds a new offer to the Database linked to the seller with the specified ID
  * and returns the created offer
  */
-router.post("/", async (req, res) => {
+router.post("/", requireLogin, async (req, res) => {
   const { email, message } = req.body;
 
   // Create a new Offer instance with the provided fields
@@ -51,7 +52,7 @@ router.post("/", async (req, res) => {
  * DELETE /sellers/:id/offers/:id
  * Deletes the offer with the specified ID
  */
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", requireLogin, async (req, res) => {
   const { id } = req.params;
   let error = {};
   let errorCode = 400;
