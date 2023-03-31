@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const Register = () => {
+const Register = ({ setAuthID }) => {
   const navigate = useNavigate();
   const { register, handleSubmit, reset, getValues, formState: {errors} } = useForm({
     mode: "onChange"
@@ -37,6 +37,7 @@ const Register = () => {
       const response = await axios.post('/auth/register', data);
 
       if (response.status === 200) {
+        setAuthID(response.data);
         navigate('/dashboard');
       }
     } catch (error) {

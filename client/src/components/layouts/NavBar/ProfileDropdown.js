@@ -3,7 +3,7 @@ import profileIcon from './profile-icon.png';
 import { Link, useNavigate} from "react-router-dom";
 import axios from 'axios';
 
-const ProfileDropdown = () => {
+const ProfileDropdown = ({ setAuthID }) => {
   const navigate = useNavigate();
 
   const onLogout = async () => {
@@ -12,6 +12,7 @@ const ProfileDropdown = () => {
       const response = await axios.post('/auth/logout');
 
       if (response.status === 200) {
+        setAuthID(false);
         navigate('/login');
       }
     } catch (error) {

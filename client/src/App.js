@@ -17,7 +17,7 @@ function App() {
   // Check if there is a user currently logged in or not
   useEffect(() => {
     async function fetchUser() {
-      const userID = await axios.get('/auth/current-session');
+      const userID = (await axios.get('/auth/current-session')).data;
       setAuthID(userID);
     }
     fetchUser();
@@ -26,15 +26,15 @@ function App() {
   return (
     <Router>
       <>
-        <Navbar authID={ authID }/>
+        <Navbar authID={ authID } setAuthID={ setAuthID } />
         <div className="bg-white h-screen">
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Home />} />
             <Route path="buyer" element={<Buyer />} />
             <Route path="seller" element={<Seller />} />
-            <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
+            <Route path="login" element={<Login setAuthID={ setAuthID }/>} />
+            <Route path="register" element={<Register setAuthID={ setAuthID }/>} />
 
             {/* Protected Routes */}
             <Route path="dashboard" element={

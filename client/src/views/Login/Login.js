@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const Login = ({ setAuthID }) => {
   const navigate = useNavigate();
   const { register, handleSubmit, reset, formState: {errors} } = useForm({
     mode: "onChange"
@@ -24,6 +24,7 @@ const Login = () => {
       const response = await axios.post('/auth/login', data);
 
       if (response.status === 200) {
+        setAuthID(response.data);
         navigate('/dashboard');
       } else if (response.status === 401) {
         // TODO: display login error message
