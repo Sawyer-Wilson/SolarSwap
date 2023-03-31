@@ -23,6 +23,11 @@ function App() {
     fetchUser();
   }, [])
 
+  // Wait for user session to be fetched before rendering page
+  if (authID === null) {
+    return <></>
+  }
+
   return (
     <Router>
       <>
