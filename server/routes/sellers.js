@@ -25,49 +25,6 @@ router.get("/:id", async (req, res) => {
 
 
 /* 
- * POST /sellers
- * Adds a new seller to the Database and returns the created seller
- */
-router.post("/", async (req, res) => {
-  const { energyListingID, firstName, lastName, email } = req.body;
-  let error = {};
-
-  // Check to make sure email is not already in use
-  if (email) {
-    try {
-      const sellerId = await Seller.exists({ email: email });
-      if (sellerId) {
-        error = { error: "Email already in use" };
-      }
-    } catch (err) {
-      error = err;
-    }
-  }
-
-  // Return immediately if any errors were found
-  if (Object.keys(error).length > 0) {
-    return res.status(400).json(error);
-  }
-
-  // Create a new Seller instance with the provided fields
-  const newSeller = new Seller({
-    energyListingID: energyListingID,
-    firstName: firstName,
-    lastName: lastName,
-    email: email
-  });
-
-  // Save the new seller in the database
-  try {
-    const savedSeller = await newSeller.save();
-    res.status(200).json(savedSeller);
-  } catch (error) {
-    res.status(400).json(error);
-  }
-});
-
-
-/* 
  * PUT /sellers/:id
  * Updates the seller with the specified ID and returns the updated seller
  */
