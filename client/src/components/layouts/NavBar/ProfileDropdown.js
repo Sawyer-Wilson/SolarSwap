@@ -16,8 +16,8 @@ const ProfileDropdown = ({ setAuthID }) => {
         navigate('/login');
       }
     } catch (error) {
-      // TODO: redirect to error page
-      console.log('Logout error: ', error)
+      navigate('/error');
+      console.log('Logout error: ', error);
     }
   }
 

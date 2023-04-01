@@ -1,7 +1,9 @@
 import axios from 'axios';
 import {useState, useEffect} from 'react';
+import { useNavigate} from "react-router-dom";
 
 const Dashboard = ({ authID }) => {
+  const navigate = useNavigate();
   const [user, setUser] = useState(false);
 
   // Fetch user's information
@@ -11,8 +13,8 @@ const Dashboard = ({ authID }) => {
       if (response.status === 200) {
         setUser(response.data);
       } else {
-        // TODO: redirect to error page
-        console.log(response)
+        navigate('/error');
+        console.log('Error fetching user information: ', response);
       }
     }
     fetchUser();

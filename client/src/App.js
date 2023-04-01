@@ -9,6 +9,7 @@ import Seller from '@views/Seller/Seller'
 import Login from '@views/Login/Login'
 import Register from '@views/Register/Register'
 import Dashboard from '@views/Dashboard/Dashboard'
+import Error from '@views/Error/Error'
 
 function App() {
   // Will either be changed to FALSE or hold the logged in users ID
@@ -40,6 +41,7 @@ function App() {
             <Route path="seller" element={<Seller />} />
             <Route path="login" element={<Login setAuthID={ setAuthID }/>} />
             <Route path="register" element={<Register setAuthID={ setAuthID }/>} />
+            <Route path="error" element={<Error/>} />
 
             {/* Protected Routes */}
             <Route path="dashboard" element={

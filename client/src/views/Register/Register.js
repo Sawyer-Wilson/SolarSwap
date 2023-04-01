@@ -41,8 +41,8 @@ const Register = ({ setAuthID }) => {
         navigate('/dashboard');
       }
     } catch (error) {
-      // TODO: redirect to error page
       console.log('Login error: ', error)
+      navigate('/error');
     }
 
     // Clear data from form input fields
