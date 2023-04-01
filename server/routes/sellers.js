@@ -1,5 +1,5 @@
 const express = require("express");
-const requireLogin = require("../middleware/requireLogin");
+const { requireLoginAndID } = require("../middleware/authenticate");
 const router = express.Router();
 
 // Load Seller model
@@ -11,7 +11,7 @@ const Seller = require("./../models/Seller");
  * GET /sellers/:id
  * Returns the seller with the specified ID
  */
-router.get("/:id", requireLogin, async (req, res) => {
+router.get("/:id", requireLoginAndID, async (req, res) => {
   try {
     const seller = await Seller.findById(req.params.id);
     if (seller) {
@@ -29,7 +29,7 @@ router.get("/:id", requireLogin, async (req, res) => {
  * PUT /sellers/:id
  * Updates the seller with the specified ID and returns the updated seller
  */
-router.put("/:id", requireLogin, async (req, res) => {
+router.put("/:id", requireLoginAndID, async (req, res) => {
   const { energyListingID, firstName, lastName, email } = req.body;
   const { id } = req.params;
   let error = {};
@@ -86,7 +86,7 @@ router.put("/:id", requireLogin, async (req, res) => {
  * DELETE /sellers/:id
  * Deletes the seller with the specified ID
  */
-router.delete("/:id", requireLogin, async (req, res) => {
+router.delete("/:id", requireLoginAndID, async (req, res) => {
   const { id } = req.params;
   let error = {};
   let errorCode = 400;
