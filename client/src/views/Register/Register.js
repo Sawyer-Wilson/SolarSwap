@@ -64,8 +64,8 @@ const Register = ({ setAuthID }) => {
             <input type="text" id="first-name" name="firstName" 
                    placeholder="Jane"
                    {...register('firstName', validation.firstName)}
-                   className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"/>
-            <small>
+                   className={"appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white" + (errors?.firstName ? " border-red-500" : "")}/>
+            <small className="text-red-500">
               {errors?.firstName && errors.firstName.message}
             </small>
           </div>
@@ -77,8 +77,8 @@ const Register = ({ setAuthID }) => {
             <input type="text" id="last-name" name="lastName" 
                    placeholder="Doe"
                    {...register('lastName', validation.lastName)}
-                   className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"/>
-            <small>
+                   className={"appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" + (errors?.lastName ? " border-red-500" : "")}/>
+            <small className="text-red-500">
               {errors?.lastName && errors.lastName.message}
             </small>
           </div>
@@ -94,8 +94,8 @@ const Register = ({ setAuthID }) => {
             <input type="email" id="email" name="email" 
                    placeholder="jane@gmail.com"
                    {...register('email', validation.email)}
-                   className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"/>
-            <small>
+                   className={"appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" + (errors?.email ? " border-red-500" : "")}/>
+            <small className="text-red-500">
               {errors?.email && errors.email.message}
             </small>
           </div>
@@ -111,8 +111,8 @@ const Register = ({ setAuthID }) => {
             <input type="password" id="password" name="password"
                    placeholder="******************"
                    {...register('password', validation.password)}
-                   className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"/>
-            <small>
+                   className={"appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white" + (errors?.password ? " border-red-500" : "")}/>
+            <small className="text-red-500">
               {errors?.password && errors.password.message}
             </small>
           </div>
@@ -124,8 +124,8 @@ const Register = ({ setAuthID }) => {
             <input type="password" id="confirm-password" name="confirmPassword"
                    placeholder="******************"
                    {...register('confirmPassword', validation.confirmPassword)}
-                   className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"/>
-            <small>
+                   className={"appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" + (errors?.confirmPassword ? " border-red-500" : "")}/>
+            <small className="text-red-500">
               {errors?.confirmPassword && errors.confirmPassword.message}
             </small>
           </div>
