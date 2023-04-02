@@ -18,7 +18,7 @@ const Dashboard = ({ authID }) => {
       }
     }
     fetchUser();
-  }, [authID])
+  }, [authID, navigate])
 
     // Wait for user data to be fetched before rendering page
   if (!user) {
