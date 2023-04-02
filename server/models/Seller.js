@@ -25,7 +25,15 @@ const sellerSchema = new Mongoose.Schema({
     minLength: 3,
     maxLength: 255,
     match: /^\S+@\S+\.\S+$/
-	}
+	},
+  hash: {
+		type: String,
+    required: true
+	}, 
+	salt : {
+		type: String,
+    required: true
+  }
 }, { timestamps: true });
 
 module.exports = Mongoose.model("Seller", sellerSchema);
