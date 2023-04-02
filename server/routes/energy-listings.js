@@ -1,16 +1,182 @@
 const express = require("express");
+const { requireLogin, requireLoginAndID } = require("../middleware/authenticate");
 const router = express.Router();
 
 // Load SellerListing model
-const EnergyListing = require("../models/EnergyListing");
+const EnergyListing = require("./../models/EnergyListing");
 
 /* -------------------------- Endpoints ------------------------ */
 
-// Gets list of every energy listing
+/* 
+ * GET /energy-listings
+ * Returns all energy listings
+ */
 router.get("/", async (req, res) => {
-  await EnergyListing.find({}, "")
-    .then((energyListings) => res.json(energyListings))
-    .catch((err) => res.send(err));
+  try {
+    const listings = await EnergyListing.find();
+    if (listings.length === 0) {
+      res.status(404).json({ error: "No Energy Listings Found"});
+    } else {
+      res.status(200).json(listings);
+    }
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+
+/* 
+ * GET /energy-listings/:id
+ * Returns the energy listing with the specified ID
+ */
+router.get("/:id", requireLoginAndID, async (req, res) => {
+  try {
+    const listing = await EnergyListing.findById(req.params.id);
+    if (listing) {
+      res.status(200).json(listing);
+    } else {
+      res.status(404).json({ error: "Energy Listing not found"});
+    }
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+
+/* 
+ * POST /energy-listings
+ * Adds a new energy listing to the Database and returns the created listing
+ */
+router.post("/", requireLogin, async (req, res) => {
+  const { sellerID, loadZoneID, utilityCompany, annualProduction,
+          annualConsumption, avgMonthlyOverage, plannedUsage, pctOverageToSell,
+          askingRate } = req.body;
+  let error = {};
+
+  // Make sure there are no other listings associated with that seller
+  if (sellerID) {
+    try {
+      const listingId = await EnergyListing.exists({ sellerID: sellerID });
+      if (listingId) {
+        error = { error: "SellerID already associated with an Energy Listing" };
+      }
+    } catch (err) {
+      error = err;
+    }
+  }
+
+  // Return immediately if any errors were found
+  if (Object.keys(error).length > 0) {
+    return res.status(400).json(error);
+  }
+
+  // Create a new Energy Listing instance with the provided fields
+  const newListing = new EnergyListing({
+    sellerID: sellerID, 
+    loadZoneID: loadZoneID, 
+    utilityCompany: utilityCompany, 
+    annualProduction: annualProduction,
+    annualConsumption: annualConsumption, 
+    avgMonthlyOverage: avgMonthlyOverage, 
+    plannedUsage: plannedUsage, 
+    pctOverageToSell: pctOverageToSell,
+    askingRate: askingRate
+  });
+
+  // Save the new Energy Listing in the database
+  try {
+    const savedListing = await newListing.save();
+    res.status(200).json(savedListing);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+
+/* 
+ * PUT /energy-listings
+ * Updates the energy listing with the specified ID and returns the updated 
+ * listing
+ */
+router.put("/:id", requireLoginAndID, async (req, res) => {
+  const { loadZoneID, utilityCompany, annualProduction, annualConsumption, 
+          avgMonthlyOverage, plannedUsage, pctOverageToSell, askingRate 
+        } = req.body;
+  const { id } = req.params;
+  let error = {};
+  let errorCode = 400;
+
+  // Ensure energy listing exists
+  let listing;
+  try {
+    const foundListing = await EnergyListing.findById(id);
+    if (!foundListing) {
+      error = { message: `No energy listing found with id: ${id}` };
+      errorCode = 404;
+    } else {
+      listing = foundListing;
+    }
+  } catch (err) {
+    error = err;
+  }
+
+  // Return immediately if any errors were found
+  if (Object.keys(error).length > 0) {
+    return res.status(errorCode).json(error);
+  }
+
+  // Update fields
+  if (loadZoneID) listing.loadZoneID = loadZoneID;
+  if (utilityCompany) listing.utilityCompany = utilityCompany;
+  if (annualProduction) listing.annualProduction = annualProduction;
+  if (annualConsumption) listing.annualConsumption = annualConsumption;
+  if (avgMonthlyOverage) listing.avgMonthlyOverage = avgMonthlyOverage;
+  if (plannedUsage) listing.plannedUsage = plannedUsage;
+  if (pctOverageToSell) listing.pctOverageToSell = pctOverageToSell;
+  if (askingRate) listing.askingRate = askingRate;
+
+  // Save updated energy listing to database
+  try {
+    const updatedListing = await listing.save();
+    res.status(200).json(updatedListing);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+
+/* 
+ * DELETE /energy-listings/:id
+ * Deletes the energy listing with the specified ID
+ */
+router.delete("/:id", requireLoginAndID, async (req, res) => {
+  const { id } = req.params;
+  let error = {};
+  let errorCode = 400;
+
+  // Ensure listing exists
+  try {
+    const listingId = await EnergyListing.exists({ _id: id});
+    if (!listingId) {
+      error = { message: `No Energy Listing found with id: ${id}` };
+      errorCode = 404;
+    }
+  } catch (err) {
+    error = err;
+  }
+
+  // Return immediately if any errors were found
+  if (Object.keys(error).length > 0) {
+    return res.status(errorCode).json(error);
+  }
+
+  // Delete energy listing from database
+  try {
+    await EnergyListing.findByIdAndDelete(id);
+    res.status(200).json({ _id: id });
+  } catch (err) {
+    res.status(400).json(err);
+  }
 });
 
 /* ------------------------------------------------------------- */

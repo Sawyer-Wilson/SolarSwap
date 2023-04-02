@@ -5,6 +5,7 @@ server/node_modules
 
 # production
 client/build
+client/src/index.css
 
 # misc
 .DS_store
