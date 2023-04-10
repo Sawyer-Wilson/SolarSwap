@@ -1,9 +1,10 @@
 import { useForm } from "react-hook-form";
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Register = ({ setAuthID }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { register, handleSubmit, reset, getValues, formState: {errors} } = useForm({
     mode: "onChange"
   });
@@ -32,21 +33,22 @@ const Register = ({ setAuthID }) => {
     // Prevent submit button from refreshing the page
     event.preventDefault();
 
+    // TODO: save listing in database (location.state.listing)
+
     // Call auth register endpoint to add user to DB
     try {
       const response = await axios.post('/auth/register', data);
 
       if (response.status === 200) {
         setAuthID(response.data);
+        reset();
         navigate('/dashboard');
       }
     } catch (error) {
       console.log('Login error: ', error)
+      reset();
       navigate('/error');
     }
-
-    // Clear data from form input fields
-    reset();
   }
 
   return (

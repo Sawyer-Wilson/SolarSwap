@@ -27,20 +27,20 @@ const Login = ({ setAuthID }) => {
 
       if (response.status === 200) {
         setAuthID(response.data);
+        reset();
         navigate('/dashboard');
       }
     } catch (error) {
       if (error.response.status === 401) {
         // Display login error message
         setInvalidCreds(true);
+        reset();
       } else {
         console.log('Login error: ', error)
+        reset();
         navigate('/error');
       }
     }
-
-    // Clear data from form input fields
-    reset();
   }
 
   return ( 
