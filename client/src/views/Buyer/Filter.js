@@ -4,14 +4,12 @@ import axios from 'axios';
 
 
 const Filter = ({ listings, setFilteredEntries }) => {
-    const[loadZoneID, setLoadZoneID] = React.useState('before');
-    const[utilityCompany, setUtilityCompany] = React.useState('before');
+    const[loadZoneID, setLoadZoneID] = React.useState('');
+    const[utilityCompany, setUtilityCompany] = React.useState('');
 
 
     const handleSearchChange = (e) => {
         e.preventDefault()
-        console.log('hi')
-        // console.log(e.utilityCompany)
         console.log(loadZoneID)
         console.log(utilityCompany)
         console.log('after e.target.value')

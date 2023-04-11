@@ -24,6 +24,33 @@ router.get("/:id", requireLoginAndID, async (req, res) => {
   }
 });
 
+// SHOULD I DELETE THIS
+/* 
+ * GET /sellers/:id
+ * Returns the seller's first name with the specified ID
+ */
+router.get("/:id/name", async (req, res) => {
+  // const { sellerID } = req.params.id;
+  console.log('right before printing req')
+  console.log(req)
+  const { sellerID } = req.params.id;
+  console.log(sellerID)
+  try {
+    const seller = await Seller.findById(sellerID);
+    if (seller) {
+      console.log(seller)
+      console.log(seller.firstName)
+      res.status(200).json(seller.firstName);
+    } else {
+      res.status(404).json({ error: "Seller not found"});
+    }
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+
+
 
 /* 
  * PUT /sellers/:id

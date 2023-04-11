@@ -1,8 +1,23 @@
 
 import { useState } from "react";
+import {useForm} from "react-hook-form";
+import axios from 'axios';
 
 const EnergyListings = ({ filteredEntries }) => {
     const[selected, setSelected] = useState(null)
+    // const[sentOffer, setSentOffer] = useState((false, null))
+    // const[msg, setMsg] = useState('')
+    // const[email, setEmail] = useState('')
+
+    const { register, handleSubmit, reset, formState: {errors} } = useForm({
+        mode: "onSubmit"
+      });
+
+    const validation = {
+        email: { required: "Email address is required"}, 
+        msg: { required: "Message is required"}
+      }
+
     const toggle = (i) => {
         if(selected === i) {
             return setSelected(null)
@@ -10,6 +25,50 @@ const EnergyListings = ({ filteredEntries }) => {
 
         setSelected(i)
     }
+
+    // const dateString = '2020-05-14T04:00:00Z'
+
+    const formatDate = (dateString) => {
+        const options = { year: "numeric", month: "long", day: "numeric"}
+        return new Date(dateString).toLocaleDateString(undefined, options)
+    }
+
+
+
+    const sendOffer = async (data, event) => {
+        event.preventDefault();
+        const sellerID = data.sellerID
+
+        try {
+            const response = await axios.post('/sellers/${sellerID}/offers', data)
+            // setSentOffer((true, selected))
+        }
+        catch(error){
+            console.log('Error submitting offer ', error)
+        }
+
+        
+        // reset();
+
+    }
+
+    // const getBuyerName = (sellerID) => {
+    //     console.log(sellerID)
+    //     axios.get('./sellers/${sellerID}/name')
+    //     .then((response) => {
+    //       console.log(response.data)
+    //       return(response.data)
+    //     })
+    //     .catch(error => console.error('Error: ${error}'));
+    //   }
+
+
+// TODO
+// - Either add a 'FirstName' attribute to the energy-listings model or query here for the name of the seller
+// - Change the filter to a drop down menu 
+// - Connect email entry to offers database
+// - Reorganize the components so they are next to each other
+
     return (
         <div className = "wrapper">
             <div className = "accordian">
@@ -19,8 +78,8 @@ const EnergyListings = ({ filteredEntries }) => {
                                     <div class = "grid grid-cols-2 gap-2">
                                         
                                         <div>
-                                            <h2 class = "text-xl pb-2">Grace</h2>
-                                            <p class = "text-[#717171] text-xs">{item.sellerID}</p>
+                                            <h2 class = "text-xl pb-2">{item.sellerFirstName}</h2>
+                                            <p class = "text-[#717171] text-xs">{formatDate(item.updatedAt)}</p>
                                         </div>
 
                                         <div>
@@ -37,7 +96,7 @@ const EnergyListings = ({ filteredEntries }) => {
                                 <div className = {selected === i ? 'content show' : 'content'}>
                                     <div class = "grid grid-cols-2 gap-16 pt-3">
                                         <span>Utility Provider:</span>
-                                        <span>{item.utilityCompany}</span>
+                                        <span>{item.utilityProvider}</span>
                                     </div>
 
                                     <div class = "grid grid-cols-2 gap-16 pt-3">
@@ -59,17 +118,29 @@ const EnergyListings = ({ filteredEntries }) => {
                                     
                                     <br></br>
                                     
-                                    <form>
+                                    <form onSubmit={handleSubmit((data, e) => {
+                                        data.sellerID = item.sellerID
+                                        sendOffer(data, e)
+                                    })}>
                                         <label for="email">Email: </label>
-                                        <input type = "text" id = "email" class = "inputBox" placeholder = "MyEmail@gmail.com"></input>
+                                        <input type = "text" id = "email" className ={"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" + (errors?.email ? " border-red-500" : "")}  placeholder = "MyEmail@gmail.com" {...register('email', validation.email)}></input>
+                                        <small className="text-red-500">
+                                            {errors?.email && errors.email.message}
+                                        </small>
                                         <br></br>
                                         <label for="msg">Message to the Seller: </label>
                                         <br></br>
-                                        <input type = "text" id = "msg" class = "inputBox" placeholder = "Hello!"></input><br></br>
-                                        
+                                        <input type = "text" id = "msg" className ={"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" + (errors?.msg ? " border-red-500" : "")}  placeholder = "Hello!" {...register('msg', validation.msg)}></input>
+                                        <small className="text-red-500">
+                                            {errors?.msg && errors.msg.message}
+                                        </small>
+                                        <br></br>
+                                        {/* <input type="text" id = "sellerID">{item.sellerID}</input> */}
                                         <div class = "pb-8">
-                                            <input type = "submit" value = "Send Offer" class="button3"></input>
+                                            <button type="submit" className = "button3" >Send Offer</button>
+                                            {/* <input type = "submit" value = "Send Offer" class="button3"></input> */}
                                         </div>
+                                        {/* <input type="text" value={item.sellerID}></input> */}
                                     </form>
 
                                 </div> 

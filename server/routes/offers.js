@@ -29,14 +29,14 @@ router.get("/", requireLoginAndID, async (req, res) => {
  * Adds a new offer to the Database linked to the seller with the specified ID
  * and returns the created offer
  */
-router.post("/", requireLoginAndID, async (req, res) => {
-  const { email, message } = req.body;
-
+router.post("/", async (req, res) => {
+  const { email, msg, sellerID } = req.body;
+  console.log(sellerID)
   // Create a new Offer instance with the provided fields
   const newOffer = new Offer({
-    sellerID: req.params.id,
+    sellerID: sellerID,
     email: email,
-    message: message
+    message: msg
   });
 
   // Save the new offer in the database

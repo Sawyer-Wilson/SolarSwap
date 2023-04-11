@@ -22,8 +22,12 @@ body {
 }
 
 .wrapper {
-  @apply flex h-screen w-screen justify-center items-center;
+  @apply flex h-screen w-screen;
 }
+
+/* .wrapper {
+    @apply flex h-screen w-screen justify-center items-center;
+} */
 
 .accordian {
   @apply w-[510px];
