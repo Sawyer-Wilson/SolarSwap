@@ -9,13 +9,13 @@ const EnergyListing = require("./../models/EnergyListing");
 
 /* 
  * GET /energy-listings
- * Returns all energy listings
+ * Returns all active energy listings
  */
 router.get("/", async (req, res) => {
   try {
-    const listings = await EnergyListing.find();
+    const listings = await EnergyListing.find({ isActive: true });
     if (listings.length === 0) {
-      res.status(404).json({ error: "No Energy Listings Found"});
+      res.status(404).json({ error: "No Active Energy Listings Found"});
     } else {
       res.status(200).json(listings);
     }

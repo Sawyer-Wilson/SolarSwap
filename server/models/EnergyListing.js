@@ -5,6 +5,10 @@ const energyListingSchema = new Mongoose.Schema({
 		type: Mongoose.ObjectId,
     required: true
 	},
+  isActive: {
+		type: Boolean,
+    default: false
+	},
   sellerFirstName: {
 		type: String,
 		required: true,
