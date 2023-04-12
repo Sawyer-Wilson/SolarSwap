@@ -1,5 +1,6 @@
 import Listing from "../../components/Listing";
 import Impact from "../../components/Impact";
+import axios from 'axios';
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
@@ -20,9 +21,32 @@ const GetStarted = ({ authID }) => {
 
     // Is user IS logged in -> save listing info and redirect to dashboard
     if (authID) {
-      // TODO: Add listing to database
-      navigate('/dashboard');
-    } 
+      // Get seller's first name 
+      let firstName;
+      try {
+        const res = await axios.get(`/sellers/${authID}`);
+        if (res.status === 200) {
+          firstName = res.data.firstName;
+        }
+      } catch (error) {
+        console.log('Error Retrieving User Info: ', error)
+        navigate('/error');
+      }
+
+      // Save listing 
+      try {
+        const res = await axios.post('/energy-listings/', 
+                                     { sellerID: authID, 
+                                       sellerFirstName: firstName, 
+                                       ...data });
+        if (res.status === 200) {
+          navigate('/dashboard');
+        }
+      } catch (error) {
+        console.log('Error Saving Energy Listing: ', error)
+        navigate('/error');
+      }
+    }
     // If user is NOT logged in -> redirect to register page with listing info
     else {
       navigate('/register', { state: {listing: listing}})

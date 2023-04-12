@@ -48,8 +48,8 @@ router.get("/:id", requireLoginAndID, async (req, res) => {
  * Adds a new energy listing to the Database and returns the created listing
  */
 router.post("/", requireLogin, async (req, res) => {
-  const { sellerID, municipality, utilityProvider, avgMonthlyOverage, 
-          pctOverageToSell, askingRate } = req.body;
+  const { sellerID, sellerFirstName, municipality, utilityProvider, 
+          avgMonthlyOverage, pctOverageToSell, askingRate } = req.body;
   let error = {};
 
   // Make sure there are no other listings associated with that seller
@@ -72,6 +72,7 @@ router.post("/", requireLogin, async (req, res) => {
   // Create a new Energy Listing instance with the provided fields
   const newListing = new EnergyListing({
     sellerID: sellerID, 
+    sellerFirstName: sellerFirstName,
     municipality: municipality, 
     utilityProvider: utilityProvider, 
     avgMonthlyOverage: avgMonthlyOverage, 
@@ -95,8 +96,8 @@ router.post("/", requireLogin, async (req, res) => {
  * listing
  */
 router.put("/:id", requireLoginAndID, async (req, res) => {
-  const { municipality, utilityProvider, avgMonthlyOverage, pctOverageToSell, 
-          askingRate } = req.body;
+  const { sellerFirstName, municipality, utilityProvider, avgMonthlyOverage, 
+          pctOverageToSell, askingRate } = req.body;
   const { id } = req.params;
   let error = {};
   let errorCode = 400;
@@ -121,6 +122,7 @@ router.put("/:id", requireLoginAndID, async (req, res) => {
   }
 
   // Update fields
+  if (sellerFirstName) listing.sellerFirstName = sellerFirstName;
   if (municipality) listing.municipality = municipality;
   if (utilityProvider) listing.utilityProvider = utilityProvider;
   if (avgMonthlyOverage) listing.avgMonthlyOverage = avgMonthlyOverage;

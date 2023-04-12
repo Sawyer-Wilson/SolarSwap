@@ -33,15 +33,29 @@ const Register = ({ setAuthID }) => {
     // Prevent submit button from refreshing the page
     event.preventDefault();
 
-    // TODO: save listing in database (location.state.listing)
-
     // Call auth register endpoint to add user to DB
     try {
       const response = await axios.post('/auth/register', data);
 
+      // If successful, log user in
       if (response.status === 200) {
         setAuthID(response.data);
         reset();
+
+        // If user came from Get Started page, save their Energy Listing
+        if (location.state && location.state.listing) {
+          try {
+            await axios.post('/energy-listings/', 
+                             { sellerID: response.data, 
+                               sellerFirstName: data.firstName,
+                               ...location.state.listing });
+          } catch (error) {
+            console.log('Error Saving Energy Listing: ', error)
+            navigate('/error');
+          }
+        }
+
+        // Redirect user to their dashboard
         navigate('/dashboard');
       }
     } catch (error) {

@@ -5,6 +5,13 @@ const energyListingSchema = new Mongoose.Schema({
 		type: Mongoose.ObjectId,
     required: true
 	},
+  sellerFirstName: {
+		type: String,
+		required: true,
+    lowercase: true,
+    maxLength: 50,
+    match: /^[a-z ,.'-]+$/i
+	},
 	municipality: {
 		type: String,
 		required: true,
