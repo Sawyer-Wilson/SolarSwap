@@ -1,5 +1,5 @@
 const express = require("express");
-const { requireLoginAndID } = require("../middleware/authenticate");
+const { requireSellerID } = require("../middleware/authenticate");
 const router = express.Router();
 
 // Load Seller model
@@ -11,7 +11,7 @@ const Seller = require("./../models/Seller");
  * GET /sellers/:id
  * Returns the seller with the specified ID
  */
-router.get("/:id", requireLoginAndID, async (req, res) => {
+router.get("/:id", requireSellerID, async (req, res) => {
   try {
     const seller = await Seller.findById(req.params.id);
     if (seller) {
@@ -29,8 +29,8 @@ router.get("/:id", requireLoginAndID, async (req, res) => {
  * PUT /sellers/:id
  * Updates the seller with the specified ID and returns the updated seller
  */
-router.put("/:id", requireLoginAndID, async (req, res) => {
-  const { energyListingID, firstName, lastName, email } = req.body;
+router.put("/:id", requireSellerID, async (req, res) => {
+  const { listingID, firstName, lastName, email } = req.body;
   const { id } = req.params;
   let error = {};
   let errorCode = 400;
@@ -67,7 +67,7 @@ router.put("/:id", requireLoginAndID, async (req, res) => {
   }
 
   // Update fields
-  if (energyListingID) seller.energyListingID = energyListingID;
+  if (listingID) seller.listingID = listingID;
   if (firstName) seller.firstName = firstName;
   if (lastName) seller.lastName = lastName;
   if (email) seller.email = email;
@@ -86,7 +86,7 @@ router.put("/:id", requireLoginAndID, async (req, res) => {
  * DELETE /sellers/:id
  * Deletes the seller with the specified ID
  */
-router.delete("/:id", requireLoginAndID, async (req, res) => {
+router.delete("/:id", requireSellerID, async (req, res) => {
   const { id } = req.params;
   let error = {};
   let errorCode = 400;

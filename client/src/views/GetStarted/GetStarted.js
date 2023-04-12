@@ -19,37 +19,38 @@ const GetStarted = ({ authID }) => {
     // Prevent submit button from refreshing the page
     event.preventDefault();
 
-    // Is user IS logged in -> save listing info and redirect to dashboard
+    // If user IS logged in -> save their listing info to DB
     if (authID) {
       // Get seller's first name 
       let firstName;
       try {
-        const res = await axios.get(`/sellers/${authID}`);
-        if (res.status === 200) {
-          firstName = res.data.firstName;
-        }
+        const res = await axios.get(`/sellers/${ authID }`);
+        firstName = res.data.firstName;
       } catch (error) {
         console.log('Error Retrieving User Info: ', error)
         navigate('/error');
       }
 
-      // Save listing 
       try {
+        // Save energy listing to DB
         const res = await axios.post('/energy-listings/', 
                                      { sellerID: authID, 
                                        sellerFirstName: firstName, 
                                        ...data });
-        if (res.status === 200) {
-          navigate('/dashboard');
-        }
+
+        // Set Energy Listing ID of Seller Document
+        await axios.put(`/sellers/${ authID }`, { listingID: res.data._id });
+
+        // Redirect to dashboard
+        navigate('/dashboard');
       } catch (error) {
         console.log('Error Saving Energy Listing: ', error)
         navigate('/error');
       }
     }
-    // If user is NOT logged in -> redirect to register page with listing info
+    // If user is NOT logged in -> redirect to register page
     else {
-      navigate('/register', { state: {listing: listing}})
+      navigate('/register', { state: { listing: listing }})
     }
   }
 

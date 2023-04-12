@@ -21,23 +21,22 @@ const Login = ({ setAuthID }) => {
     // Prevent submit button from refreshing the page
     event.preventDefault();
 
-    // Call auth login endpoint to log user in
-    try {
-      const response = await axios.post('/auth/login', data);
+    // Clear data from registration form
+    reset();
 
-      if (response.status === 200) {
-        setAuthID(response.data);
-        reset();
-        navigate('/dashboard');
-      }
+    try {
+      // Log user in
+      const res = await axios.post('/auth/login', data);
+      setAuthID(res.data);
+
+      // Redirect them to their dashboard
+      navigate('/dashboard');
     } catch (error) {
       if (error.response.status === 401) {
         // Display login error message
         setInvalidCreds(true);
-        reset();
       } else {
         console.log('Login error: ', error)
-        reset();
         navigate('/error');
       }
     }

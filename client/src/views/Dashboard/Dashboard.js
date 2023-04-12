@@ -5,35 +5,35 @@ import { useNavigate} from "react-router-dom";
 const Dashboard = ({ authID }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState(false);
+  const [listing, setListing] = useState(false);
 
-  // Fetch user's information
+  // Fetch user's information and their energy listing
   useEffect(() => {
-    async function fetchUser() {
-      const response = await axios.get(`/sellers/${ authID }`);
-      if (response.status === 200) {
-        setUser(response.data);
-      } else {
+    async function fetchInfo() {
+      try {
+        // Get seller info
+        const resUser = (await axios.get(`/sellers/${ authID }`));
+        setUser(resUser.data);
+
+        // Get seller's energy listing
+        const resListing = (await axios.get(`/energy-listings/${ resUser.data.listingID }`));
+        setListing(resListing.data);
+      } catch (error) {
+        console.log('Error fetching user information: ', error);
         navigate('/error');
-        console.log('Error fetching user information: ', response);
       }
     }
-    fetchUser();
+    fetchInfo();
   }, [authID, navigate])
 
-    // Wait for user data to be fetched before rendering page
-  if (!user) {
+  // Wait for user data to be fetched before rendering page
+  if (!user || !listing) {
     return <></>
   }
   
   return ( 
     <>
       <h1>Seller Dashboard</h1>
-
-      {/* Display user information - TODO: delete this and add real components */}
-      <p>{ user._id }</p>
-      <p>{ user.firstName }</p>
-      <p>{ user.lastName }</p>
-      <p>{ user.email }</p>
     </>
    );
 }

@@ -1,5 +1,5 @@
 const express = require("express");
-const { requireLogin, requireLoginAndID } = require("../middleware/authenticate");
+const { requireLogin, requireListingID } = require("../middleware/authenticate");
 const router = express.Router();
 
 // Load SellerListing model
@@ -29,7 +29,7 @@ router.get("/", async (req, res) => {
  * GET /energy-listings/:id
  * Returns the energy listing with the specified ID
  */
-router.get("/:id", requireLoginAndID, async (req, res) => {
+router.get("/:id", requireListingID, async (req, res) => {
   try {
     const listing = await EnergyListing.findById(req.params.id);
     if (listing) {
@@ -95,7 +95,7 @@ router.post("/", requireLogin, async (req, res) => {
  * Updates the energy listing with the specified ID and returns the updated 
  * listing
  */
-router.put("/:id", requireLoginAndID, async (req, res) => {
+router.put("/:id", requireListingID, async (req, res) => {
   const { sellerFirstName, municipality, utilityProvider, avgMonthlyOverage, 
           pctOverageToSell, askingRate } = req.body;
   const { id } = req.params;
@@ -143,7 +143,7 @@ router.put("/:id", requireLoginAndID, async (req, res) => {
  * DELETE /energy-listings/:id
  * Deletes the energy listing with the specified ID
  */
-router.delete("/:id", requireLoginAndID, async (req, res) => {
+router.delete("/:id", requireListingID, async (req, res) => {
   const { id } = req.params;
   let error = {};
   let errorCode = 400;
