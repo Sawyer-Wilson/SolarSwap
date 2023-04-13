@@ -3,7 +3,8 @@ const Impact = ({ listing }) => {
   let monthlyProfit = 0, lifeTimeProfit = 0, CO2Emissions = 0, roadTrips = 0;
 
   // Calculate impact 
-  if (!(isNaN(avgMonthlyOverage) || isNaN(pctOverageToSell) || isNaN(askingRate))) {
+  if (!(isNaN(avgMonthlyOverage) || isNaN(pctOverageToSell) || isNaN(askingRate)) && 
+       avgMonthlyOverage <= 3000 && pctOverageToSell <= 100 && askingRate <= 100) {
     monthlyProfit = Math.round(avgMonthlyOverage * (pctOverageToSell / 100) * (askingRate / 100));
     lifeTimeProfit = Math.round(monthlyProfit * 12 * 25);
     CO2Emissions = Math.round(lifeTimeProfit * (1 / 0.31) * 2.26 * (1 / 2000));

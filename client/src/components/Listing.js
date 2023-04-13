@@ -13,21 +13,21 @@ const Listing = ({ handleSaveInfo, listing, setListing }) => {
     avgMonthlyOverage: { 
       required: "Required Field",
       pattern: {
-        value: /^[0-9,]*$/,
+        value: /^([1-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-2][0-9][0-9][0-9]|3000)$/,
         message: "Invalid number"
       }
     },
     pctOverageToSell: { 
       required: "Required Field",
       pattern: {
-        value: /^[0-9,]*$/,
+        value: /^([1-9]|[1-9][0-9]|100)$/,
         message: "Invalid number"
       }
     },
     askingRate: { 
       required: "Required Field",
       pattern: {
-        value: /^[0-9,]*$/,
+        value: /^([1-9]|[1-9][0-9]|100)$/,
         message: "Invalid number"
       } 
     }
