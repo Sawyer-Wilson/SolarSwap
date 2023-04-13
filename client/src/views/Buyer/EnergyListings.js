@@ -52,7 +52,6 @@ const EnergyListings = ({ filteredEntries }) => {
 
 
 // TODO
-// - Change the filter to a drop down menu 
 // - Fix the error entry stuff
 // - Reorganize the components so they are next to each other
 
@@ -65,7 +64,7 @@ const EnergyListings = ({ filteredEntries }) => {
                                     <div class = "grid grid-cols-2 gap-2">
                                         
                                         <div>
-                                            <h2 class = "text-xl pb-2">{item.sellerFirstName}</h2>
+                                            <h2 class = "text-xl pb-2">{(item.sellerFirstName)}</h2>
                                             <p class = "text-[#717171] text-xs">{formatDate(item.updatedAt)}</p>
                                         </div>
 

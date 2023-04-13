@@ -37,10 +37,6 @@ const Dropdown = ({placeHolder, options, onChange, isSearchable}) => {
 
     
 
-
-  
-
-
     useEffect(() => {
       const handler = () => setShowMenu(false);
 

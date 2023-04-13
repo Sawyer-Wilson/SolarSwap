@@ -38,7 +38,7 @@ body {
 }
 
 .title {
-  @apply text-[#3A3A3A] flex justify-between items-center cursor-pointer;
+  @apply text-[#3A3A3A] flex justify-start items-center cursor-pointer;
 }
 
 .content {

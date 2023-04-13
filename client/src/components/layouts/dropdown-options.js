@@ -1,5 +1,6 @@
 
 const municipalities = [
+    {value: '', label: 'Select...'},
     {value: 'abington', label: 'Abington'},
     {value: 'acton', label: 'Acton'},
     {value: 'acushnet', label: 'Acushnet'},
@@ -354,6 +355,7 @@ const municipalities = [
 ]
 
 const utilityProviders = [
+    {value: '', label: "Select..."},
     {value: 'eversource', label: "Eversource"},
     {value: 'national grid', label: "National Grid"}
 ]
