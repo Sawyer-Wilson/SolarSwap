@@ -43,7 +43,7 @@ const Register = ({ setAuthID }) => {
       // Clear data from registration form
       reset();
 
-      // If user came from Get Started page...
+      // If user came from Calc Earnings page...
       if (location.state && location.state.listing) {
         try {
           // Save energy listing to DB

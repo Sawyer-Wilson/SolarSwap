@@ -6,7 +6,7 @@ import Navbar from '@components/NavBar/Navbar';
 import Home from '@views/Home/Home'
 import IWantSolar from '@views/IWantSolar/IWantSolar'
 import IHaveSolar from '@views/IHaveSolar/IHaveSolar'
-import GetStarted from "./views/GetStarted/GetStarted";
+import CalcEarnings from "./views/CalcEarnings/CalcEarnings";
 import Login from '@views/Login/Login'
 import Register from '@views/Register/Register'
 import Dashboard from '@views/Dashboard/Dashboard'
@@ -41,7 +41,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="i-want-solar" element={<IWantSolar />} />
             <Route path="i-have-solar" element={<IHaveSolar />} />
-            <Route path="get-started" element={<GetStarted authID={ authID }/>} />
+            <Route path="calc-earnings" element={<CalcEarnings authID={ authID }/>} />
             <Route path="error" element={<Error/>} />
 
             {/* Routes only for un-authenticated users */}

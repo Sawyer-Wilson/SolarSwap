@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
-const GetStarted = ({ authID }) => {
+const CalcEarnings = ({ authID }) => {
   const navigate = useNavigate();
   const [listing, setListing] = useState({
     municipality: "",
@@ -68,4 +68,4 @@ const GetStarted = ({ authID }) => {
   );
 }
  
-export default GetStarted;
+export default CalcEarnings;
