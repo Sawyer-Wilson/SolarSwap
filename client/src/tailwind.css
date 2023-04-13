@@ -30,7 +30,7 @@ body {
 } */
 
 .accordian {
-  @apply w-[510px];
+  @apply w-[600px];
 }
 
 .item {

@@ -61,7 +61,7 @@ const EnergyListings = ({ filteredEntries }) => {
             {filteredEntries.map((item, i) => (
                 <div className = "item">
                                 <div className = "title" onClick={() => toggle(i)}>
-                                    <div class = "grid grid-cols-2 gap-2">
+                                    <div class = "grid grid-cols-2 gap-2 pb-2">
                                         
                                         <div>
                                             <h2 class = "text-xl pb-2">{(item.sellerFirstName)}</h2>
@@ -76,7 +76,7 @@ const EnergyListings = ({ filteredEntries }) => {
                                         </div>
                                     </div>
                                     
-                                    <span>{selected === i ? 'v' : '>'}</span>
+                                    <span class="pl-2">{selected === i ? 'v' : '>'}</span>
                                 </div> 
                                 <br></br>
                                 <div className = {selected === i ? 'content show' : 'content'}>
