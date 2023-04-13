@@ -1,9 +1,10 @@
 import { useForm } from "react-hook-form";
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Register = ({ setAuthID }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { register, handleSubmit, reset, getValues, formState: {errors} } = useForm({
     mode: "onChange"
   });
@@ -32,21 +33,41 @@ const Register = ({ setAuthID }) => {
     // Prevent submit button from refreshing the page
     event.preventDefault();
 
-    // Call auth register endpoint to add user to DB
     try {
-      const response = await axios.post('/auth/register', data);
+      // Register user
+      const userID = (await axios.post('/auth/register', data)).data;
 
-      if (response.status === 200) {
-        setAuthID(response.data);
+      // Log user in
+      setAuthID(userID);
+
+      // Clear data from registration form
+      reset();
+
+      // If user came from Get Started page...
+      if (location.state && location.state.listing) {
+        try {
+          // Save energy listing to DB
+          const res = await axios.post('/energy-listings/', 
+                                       { sellerID: userID, 
+                                         sellerFirstName: data.firstName,
+                                         ...location.state.listing });
+
+          // Set Energy Listing ID of Seller Document
+          await axios.put(`/sellers/${ userID }`, { listingID: res.data._id });
+          
+        } catch (error) {
+          console.log('Error Saving Energy Listing: ', error)
+          navigate('/error');
+        }
+
+        // Redirect user to their dashboard
         navigate('/dashboard');
       }
     } catch (error) {
       console.log('Login error: ', error)
+      reset();
       navigate('/error');
     }
-
-    // Clear data from form input fields
-    reset();
   }
 
   return (

@@ -21,7 +21,7 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
 
 /* 
  * POST /auth/register
- * Adds a user to the database and logs them in
+ * Adds a user to the database and logs them in, returning their user ID
  */
 router.post('/register', async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
@@ -50,7 +50,7 @@ router.post('/register', async (req, res) => {
   }
 
   // Encrypt user provided password
-  const { salt, encryptedPass } = await encrypt(password);
+  const { salt, encryptedPass } = encrypt(password);
 
   // Create a new Seller instance with the provided fields and encrypted pass
   const newSeller = new Seller({
@@ -69,13 +69,13 @@ router.post('/register', async (req, res) => {
     res.status(400).json(error);
   }
 
-// Login and return created seller
+  // Login and return created seller
   req.login(savedSeller, ((err) => {
     if (err) { 
       res.status(400).json(err);
       return next(err); 
     } else {
-      res.status(200).json(savedSeller);
+      res.status(200).json(savedSeller._id);
     }
   }));
 });

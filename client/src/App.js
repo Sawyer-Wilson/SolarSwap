@@ -2,14 +2,16 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import { RequireAuth, PreventAuth } from '@utils/auth';
-import Navbar from '@components/layouts/NavBar/Navbar';
+import Navbar from '@components/NavBar/Navbar';
 import Home from '@views/Home/Home'
-import Buyer from '@views/Buyer/Buyer'
-import Seller from '@views/Seller/Seller'
+import IWantSolar from '@views/IWantSolar/IWantSolar'
+import IHaveSolar from '@views/IHaveSolar/IHaveSolar'
+import GetStarted from "./views/GetStarted/GetStarted";
 import Login from '@views/Login/Login'
 import Register from '@views/Register/Register'
 import Dashboard from '@views/Dashboard/Dashboard'
 import Error from '@views/Error/Error'
+import PageNotFound from '@views/PageNotFound/PageNotFound'
 
 function App() {
   // Will either be changed to FALSE or hold the logged in users ID
@@ -33,12 +35,13 @@ function App() {
     <Router>
       <>
         <Navbar authID={ authID } setAuthID={ setAuthID } />
-        <div className="bg-white h-screen">
+        <div className="bg-white min-h-screen">
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Home />} />
-            <Route path="buyer" element={<Buyer />} />
-            <Route path="seller" element={<Seller />} />
+            <Route path="i-want-solar" element={<IWantSolar />} />
+            <Route path="i-have-solar" element={<IHaveSolar />} />
+            <Route path="get-started" element={<GetStarted authID={ authID }/>} />
             <Route path="error" element={<Error/>} />
 
             {/* Routes only for un-authenticated users */}
@@ -48,7 +51,7 @@ function App() {
               </PreventAuth>}/>
             <Route path="register" element={
               <PreventAuth authID={ authID }>
-                <Register setAuthID={ setAuthID }/>
+                <Register authID={ authID } setAuthID={ setAuthID }/>
               </PreventAuth>}/>
 
             {/* Protected Routes */}
@@ -56,6 +59,9 @@ function App() {
               <RequireAuth authID={ authID }>
                 <Dashboard authID={ authID }/>
               </RequireAuth>}/>
+            
+            {/* Catch All */}
+            <Route path="*" element={<PageNotFound />} />
           </Routes>
         </div>
       </>

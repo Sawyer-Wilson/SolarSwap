@@ -1,7 +1,7 @@
 const Mongoose = require("mongoose");
 
 const sellerSchema = new Mongoose.Schema({
-	energyListingID: {
+	listingID: {
 		type: Mongoose.ObjectId,
 	},
 	firstName: {
