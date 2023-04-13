@@ -5,18 +5,9 @@ import { useState, useEffect } from "react";
 
 import Filter from './Filter';
 import EnergyListings from './EnergyListings';
+import Dropdown from '../../components/layouts/Dropdown'
 
 
-// const Buyer = () => {
-//   return ( 
-//     <div>
-//       <h1>Buyer Page</h1>
-//       <Filter></Filter>
-//     </div>
-//    );
-// }
- 
-// export default Buyer;
 
 const Buyer = () => {
   const [listings, setListings] = useState([])
@@ -29,38 +20,18 @@ const Buyer = () => {
   const fetchListings = () => {
     axios.get('./energy-listings')
     .then((response) => {
-      // let updatedList = response.data.map((listing) => listing.sellerName = getBuyerName(listing.sellerID))
-      // console.log(updatedList)
-      // setListings(updatedList);
-      // setFilteredEntries(updatedList);
       setListings(response.data);
       setFilteredEntries(response.data);
     })
     .catch(error => console.error('Error: ${error}'));
   }
 
-  // const getBuyerName = (sellerID) => {
-  //   return 'name'
-  //   // console.log(sellerID)
-  //   // axios.get('./sellers/${sellerID}/name')
-  //   // .then((response) => {
-  //   //   console.log(response.data)
-  //   //   return(response.data)
-  //   // })
-  //   // .catch(error => console.error('Error: ${error}'));
-  // }
-
-
-  console.log(listings)
-  console.log(typeof(listings))
-  // let response = []
-  // useEffect( async () => {
-  //   response = await axios.get('/energy-listings')
-  //   setListings(response.data)
-  //     // .then(setListings(response.data))
-  //     // .then(setFilteredEntries(response.data))
-  // }, [])
-
+  const municipalities = [
+    {value: "", label: "Select..."},
+    {value: "somerville", label: "Somerville"},
+    {value: "medford", label: "Medford"},
+    {value: "abington", label: "Abington"}
+  ]
 
   return (
     <div className= "pt-32 w-3/4">
@@ -69,6 +40,7 @@ const Buyer = () => {
     <div className="grid grid-cols-2">
       <Filter listings={listings} setFilteredEntries={setFilteredEntries}></Filter>
       <EnergyListings filteredEntries={filteredEntries}></EnergyListings>
+      <Dropdown placeHolder="Select..." options={municipalities}></Dropdown>
     </div>
     </div>
   )

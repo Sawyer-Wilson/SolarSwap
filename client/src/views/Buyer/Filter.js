@@ -1,25 +1,28 @@
 
 import React, { useState } from 'react'
 import axios from 'axios';
+import Dropdown from '../../components/layouts/Dropdown';
 
+const municipalities = require('../../components/layouts/dropdown-options').municipalities;
+const utilityProviders = require('../../components/layouts/dropdown-options').utilityProviders;
 
 const Filter = ({ listings, setFilteredEntries }) => {
-    const[loadZoneID, setLoadZoneID] = React.useState('');
-    const[utilityCompany, setUtilityCompany] = React.useState('');
+    const[municipality, setMunicipality] = React.useState('');
+    const[utilityProvider, setUtilityProvider] = React.useState('');
 
 
     const handleSearchChange = (e) => {
         e.preventDefault()
-        console.log(loadZoneID)
-        console.log(utilityCompany)
+        // console.log(loadZoneID)
+        // console.log(utilityCompany)
         console.log('after e.target.value')
         
         // if (!e.target.value) return setFilteredEntries(listings)
 
 
         const resultsArray = listings
-        .filter(x => x.loadZoneID == (loadZoneID == '' ? x.loadZoneID : loadZoneID))
-        .filter(y => y.utilityCompany == (utilityCompany == '' ? y.utilityCompany : utilityCompany));
+        .filter(x => x.municipality == (municipality == '' ? x.municipality : municipality))
+        .filter(y => y.utilityProvider == (utilityProvider == '' ? y.utilityProvider : utilityProvider));
         setFilteredEntries(resultsArray);
     }
 
@@ -27,10 +30,10 @@ const Filter = ({ listings, setFilteredEntries }) => {
         <div className = "filter">
             <div className="search-header" class = "max-w-sm bg-white rounded overflow-hidden shadow-lg w-[404px] h-[277px] pl-5 pr-5">
                 <div className="search-text" class = "text-xl pb-2 pt-4 pl-5">01. MUNICIPALITY:</div>
-                <input id="search-box" class = "inputBox mb-5" placeholder="Abington" onChange={(e) => {setLoadZoneID(e.target.value)}}/>
-
+                {/* <input id="search-box" class = "inputBox mb-5" placeholder="Abington" onChange={(e) => {setMunicipality(e.target.value)}}/> */}
+                <Dropdown isSearchable placeHolder="Select..." options={municipalities} onChange={(value) => {setMunicipality(value.value)}}></Dropdown>
                 <div className="search-text" class = "text-xl pb-2 pl-5">02. UTILITY PROVIDER:</div>
-                <input id="search-box" class = "inputBox" placeholder="Eversource" onChange={(e) => {setUtilityCompany(e.target.value)}}/>
+                <input id="search-box" class = "inputBox" placeholder="Eversource" onChange={(e) => {setUtilityProvider(e.target.value)}}/>
 
                 <button onClick={handleSearchChange} class = "button3 mt-5" >View Offers</button>
             </div>
