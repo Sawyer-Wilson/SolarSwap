@@ -16,8 +16,8 @@ const Impact = ({ listing }) => {
       {/* FINANCIAL IMPACT */}
       <div className="rounded-lg shadow-lg overflow-hidden">
         {/* Header */}
-        <div className="bg-[#5AADD3]">
-          <p className="text-[#EFEDEB] font-bold text-2xl p-3 px-8">FINANCIAL IMPACT</p>
+        <div className="bg-blue">
+          <p className="text-gray-100 font-bold text-2xl p-3 px-8">FINANCIAL IMPACT</p>
         </div>
         {/* Body */}
         <div className="flex flex-col space-y-2 p-3 px-8">
@@ -35,8 +35,8 @@ const Impact = ({ listing }) => {
       {/* ENVIRONMENTAL IMPACT */}
       <div className="rounded-lg shadow-lg overflow-hidden">
         {/* Header */}
-        <div className="bg-[#5AADD3]">
-          <p className="text-[#EFEDEB] font-bold text-2xl p-3 px-8">ENVIRONMENTAL IMPACT</p>
+        <div className="bg-blue">
+          <p className="text-gray-100 font-bold text-2xl p-3 px-8">ENVIRONMENTAL IMPACT</p>
         </div>
         {/* Body */}
         <div className="flex flex-col space-y-2 p-3 px-8">

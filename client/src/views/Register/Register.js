@@ -155,7 +155,7 @@ const Register = ({ setAuthID }) => {
         {/* Register Button */}
         <div>
           <button type="submit"
-                  className="bg-rose-500 hover:bg-rose-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                  className="bg-red-light hover:bg-red-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             Register
           </button>
         </div>

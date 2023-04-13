@@ -48,8 +48,8 @@ const Listing = ({ handleSaveInfo, listing, setListing }) => {
         {/* System Info */}
         <div className="rounded-lg shadow-lg overflow-hidden">
           {/* Header */}
-          <div className="bg-[#5AADD3]">
-            <p className="text-[#EFEDEB] font-bold text-2xl p-3 px-8">SYSTEM INFO</p>
+          <div className="bg-blue">
+            <p className="text-gray-100 font-bold text-2xl p-3 px-8">SYSTEM INFO</p>
           </div>
           {/* Body */}
           <div className="flex flex-col space-y-4 p-5 px-8">
@@ -99,8 +99,8 @@ const Listing = ({ handleSaveInfo, listing, setListing }) => {
         {/* Listing Info */}
         <div className="rounded-lg shadow-lg overflow-hidden">
           {/* Header */}
-          <div className="bg-[#5AADD3]">
-            <p className="text-[#EFEDEB] font-bold text-2xl p-3 px-8">LISTING INFO</p>
+          <div className="bg-blue">
+            <p className="text-gray-100 font-bold text-2xl p-3 px-8">LISTING INFO</p>
           </div>
           {/* Body */}
           <div className="flex flex-col space-y-4 p-5 px-8">
@@ -139,7 +139,7 @@ const Listing = ({ handleSaveInfo, listing, setListing }) => {
         {/* Submit/Save Button */}
         <div>
           <button type="submit"
-                  className="bg-rose-500 hover:bg-rose-700 text-white font-bold w-full py-4 rounded-lg focus:outline-none focus:shadow-outline">
+                  className="bg-red-light hover:bg-red-dark text-white font-bold w-full py-4 rounded-lg focus:outline-none focus:shadow-outline">
             Save Info
           </button>
         </div>
