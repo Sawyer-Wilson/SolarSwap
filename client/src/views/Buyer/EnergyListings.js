@@ -8,6 +8,7 @@ const EnergyListings = ({ filteredEntries }) => {
     // const[sentOffer, setSentOffer] = useState((false, null))
     // const[msg, setMsg] = useState('')
     // const[email, setEmail] = useState('')
+    const [sentOffer, setSentOffer] = useState(false)
 
     const { register, handleSubmit, reset, formState: {errors} } = useForm({
         mode: "onSubmit"
@@ -20,10 +21,19 @@ const EnergyListings = ({ filteredEntries }) => {
 
     const toggle = (i) => {
         if(selected === i) {
+            //new
+            setSentOffer(false)
+            reset({email: '', msg: ''});
+
             return setSelected(null)
+            
         }
 
         setSelected(i)
+
+        //new
+        setSentOffer(false)
+        reset({email: '', msg: ''});
     }
 
     const formatDate = (dateString) => {
@@ -45,8 +55,9 @@ const EnergyListings = ({ filteredEntries }) => {
             console.log('Error submitting offer ', error)
         }
 
-        
-        // reset();
+        //new
+        setSentOffer(true)
+        reset({email: '', msg: ''});
 
     }
 
@@ -109,14 +120,14 @@ const EnergyListings = ({ filteredEntries }) => {
                                         sendOffer(data, e)
                                     })}>
                                         <label for="email">Email: </label>
-                                        <input type = "text" id = "email" className ={"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" + (errors?.email ? " border-red-500" : "")}  placeholder = "MyEmail@gmail.com" {...register('email', validation.email)}></input>
+                                        <input type = "text" id = "email" className ={"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" + (errors?.email && !sentOffer ? " border-red-500" : "")}  placeholder = "MyEmail@gmail.com" {...register('email', validation.email)}></input>
                                         <small className="text-red-500">
                                             {errors?.email && errors.email.message}
                                         </small>
                                         <br></br>
                                         <label for="msg">Message to the Seller: </label>
                                         <br></br>
-                                        <input type = "text" id = "msg" className ={"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" + (errors?.msg ? " border-red-500" : "")}  placeholder = "Hello!" {...register('msg', validation.msg)}></input>
+                                        <input type = "text" id = "msg" className ={"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" + (errors?.msg && !sentOffer ? " border-red-500" : "")}  placeholder = "Hello!" {...register('msg', validation.msg)}></input>
                                         <small className="text-red-500">
                                             {errors?.msg && errors.msg.message}
                                         </small>
