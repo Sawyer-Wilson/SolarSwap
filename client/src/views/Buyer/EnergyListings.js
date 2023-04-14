@@ -8,7 +8,7 @@ const EnergyListings = ({ filteredEntries }) => {
     // const[sentOffer, setSentOffer] = useState((false, null))
     // const[msg, setMsg] = useState('')
     // const[email, setEmail] = useState('')
-    const [sentOffer, setSentOffer] = useState(false)
+    // const [sentOffer, setSentOffer] = useState(false)
 
     const { register, handleSubmit, reset, formState: {errors} } = useForm({
         mode: "onSubmit"
@@ -22,8 +22,8 @@ const EnergyListings = ({ filteredEntries }) => {
     const toggle = (i) => {
         if(selected === i) {
             //new
-            setSentOffer(false)
-            reset({email: '', msg: ''});
+            // setSentOffer(false)
+            // reset({email: '', msg: ''});
 
             return setSelected(null)
             
@@ -32,8 +32,8 @@ const EnergyListings = ({ filteredEntries }) => {
         setSelected(i)
 
         //new
-        setSentOffer(false)
-        reset({email: '', msg: ''});
+        // setSentOffer(false)
+        // reset({email: '', msg: ''});
     }
 
     const formatDate = (dateString) => {
@@ -46,7 +46,7 @@ const EnergyListings = ({ filteredEntries }) => {
     const sendOffer = async (data, event) => {
         event.preventDefault();
         const sellerID = data.sellerID
-
+        console.log('made it inside sendOffer')
         try {
             const response = await axios.post('/sellers/${sellerID}/offers', data)
             // setSentOffer((true, selected))
@@ -56,12 +56,16 @@ const EnergyListings = ({ filteredEntries }) => {
         }
 
         //new
-        setSentOffer(true)
-        reset({email: '', msg: ''});
+        // setSentOffer(true)
+        // reset({email: '', msg: ''});
 
     }
 
+    // {...register('email', validation.email)}
+    // + (errors?.email ? " border-red-500" : "")
 
+    // {...register('msg', validation.msg)}
+    // + (errors?.msg ? " border-red-500" : "")
 // TODO
 // - Fix the error entry stuff
 // - Reorganize the components so they are next to each other
@@ -116,18 +120,19 @@ const EnergyListings = ({ filteredEntries }) => {
                                     <br></br>
                                     
                                     <form onSubmit={handleSubmit((data, e) => {
+                                        console.log('made it to onSubmit')
                                         data.sellerID = item.sellerID
                                         sendOffer(data, e)
                                     })}>
                                         <label for="email">Email: </label>
-                                        <input type = "text" id = "email" className ={"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" + (errors?.email && !sentOffer ? " border-red-500" : "")}  placeholder = "MyEmail@gmail.com" {...register('email', validation.email)}></input>
+                                        <input type = "text" id = "email" placeholder = "MyEmail@gmail.com" {...register('email', validation.email)} className ={"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" + (errors?.email ? " border-red-500" : "")}></input>
                                         <small className="text-red-500">
                                             {errors?.email && errors.email.message}
                                         </small>
                                         <br></br>
                                         <label for="msg">Message to the Seller: </label>
                                         <br></br>
-                                        <input type = "text" id = "msg" className ={"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" + (errors?.msg && !sentOffer ? " border-red-500" : "")}  placeholder = "Hello!" {...register('msg', validation.msg)}></input>
+                                        <input type = "text" id = "msg" placeholder = "Hello!" {...register('msg', validation.msg)} className ={"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" + (errors?.msg ? " border-red-500" : "")}></input>
                                         <small className="text-red-500">
                                             {errors?.msg && errors.msg.message}
                                         </small>
