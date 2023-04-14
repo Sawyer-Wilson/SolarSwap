@@ -15,7 +15,7 @@ const QuickActions = () => {
           <NavLink 
             key= { action.name }
             to={ action.path }
-            className='bg-red-light text-white hover:bg-red-dark hover:text-grey-300 rounded-md px-3 py-2 text-sm font-medium'>
+            className='bg-rose-light text-white hover:bg-rose-dark hover:text-grey-300 rounded-md px-3 py-2 text-sm font-medium'>
             { action.name }
           </NavLink>
       )) }

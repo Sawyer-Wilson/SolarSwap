@@ -61,7 +61,7 @@ const Listing = ({ handleSaveInfo, listing, setListing }) => {
               <input type="text" id="municipality" name="municipality" 
                      placeholder="Somerville"
                      {...register('municipality', validation.municipality)}
-                     className={"w-3/5 border rounded-lg py-2 px-3 leading-tight tracking-wide focus:outline-none focus:bg-white focus:border-gray-800 " + (errors?.municipality ? "border-red-500" : "border-gray-400")}/>
+                     className={"w-3/5 border rounded-lg py-2 px-3 leading-tight tracking-wide focus:outline-none " + (errors?.municipality ? "border-red-500" : "border-gray-400")}/>
               <small className="text-red-500">
                 {errors?.municipality && errors.municipality.message}
               </small>
@@ -74,7 +74,7 @@ const Listing = ({ handleSaveInfo, listing, setListing }) => {
               <input type="text" id="utilityProvider" name="utilityProvider" 
                      placeholder="Eversource"
                      {...register('utilityProvider', validation.utilityProvider)}
-                     className={"w-3/5 border rounded-lg py-2 px-3 leading-tight tracking-wide focus:outline-none focus:bg-white focus:border-gray-800 " + (errors?.utilityProvider ? "border-red-500" : "border-gray-400")}/>
+                     className={"w-3/5 border rounded-lg py-2 px-3 leading-tight tracking-wide focus:outline-none " + (errors?.utilityProvider ? "border-red-500" : "border-gray-400")}/>
               <small className="text-red-500">
                 {errors?.utilityProvider && errors.utilityProvider.message}
               </small>
@@ -88,7 +88,7 @@ const Listing = ({ handleSaveInfo, listing, setListing }) => {
               <input type="text" id="avgMonthlyOverage" name="avgMonthlyOverage" 
                      placeholder="200"
                      {...register('avgMonthlyOverage', validation.avgMonthlyOverage)}
-                     className={"w-1/5 border rounded-lg py-2 px-3 leading-tight tracking-wide focus:outline-none focus:bg-white focus:border-gray-800 " + (errors?.avgMonthlyOverage ? "border-red-500" : "border-gray-400")}/>
+                     className={"w-1/5 border rounded-lg py-2 px-3 leading-tight tracking-wide focus:outline-none " + (errors?.avgMonthlyOverage ? "border-red-500" : "border-gray-400")}/>
               <small className="text-red-500">
                 {errors?.avgMonthlyOverage && errors.avgMonthlyOverage.message}
               </small>
@@ -112,7 +112,7 @@ const Listing = ({ handleSaveInfo, listing, setListing }) => {
               <input type="text" id="pctOverageToSell" name="pctOverageToSell" 
                      placeholder="40"
                      {...register('pctOverageToSell', validation.pctOverageToSell)}
-                     className={"w-1/5 border rounded-lg py-2 px-3 leading-tight tracking-wide focus:outline-none focus:bg-white focus:border-gray-800 " + (errors?.pctOverageToSell ? "border-red-500" : "border-gray-400")}/>
+                     className={"w-1/5 border rounded-lg py-2 px-3 leading-tight tracking-wide focus:outline-none " + (errors?.pctOverageToSell ? "border-red-500" : "border-gray-400")}/>
               <p className="tracking-wide text-lg">%</p>
               <small className="text-red-500">
                 {errors?.pctOverageToSell && errors.pctOverageToSell.message}
@@ -126,7 +126,7 @@ const Listing = ({ handleSaveInfo, listing, setListing }) => {
               <input type="text" id="askingRate" name="askingRate" 
                      placeholder="80"
                      {...register('askingRate', validation.askingRate)}
-                     className={"w-1/5 border rounded-lg py-2 px-3 leading-tight tracking-wide focus:outline-none focus:bg-white focus:border-gray-800 " + (errors?.askingRate ? "border-red-500" : "border-gray-400")}/>
+                     className={"w-1/5 border rounded-lg py-2 px-3 leading-tight tracking-wide focus:outline-none " + (errors?.askingRate ? "border-red-500" : "border-gray-400")}/>
               <p className="tracking-wide text-lg">%</p>
               <small className="text-red-500">
                 {errors?.askingRate && errors.askingRate.message}
@@ -139,7 +139,7 @@ const Listing = ({ handleSaveInfo, listing, setListing }) => {
         {/* Submit/Save Button */}
         <div>
           <button type="submit"
-                  className="bg-red-light hover:bg-red-dark text-white font-bold w-full py-4 rounded-lg focus:outline-none focus:shadow-outline">
+                  className="bg-rose-light hover:bg-rose-dark text-white font-bold w-full py-4 rounded-lg focus:outline-none focus:shadow-outline">
             Save Info
           </button>
         </div>

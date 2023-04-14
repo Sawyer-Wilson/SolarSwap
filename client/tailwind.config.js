@@ -5,11 +5,12 @@ module.exports = {
   theme: {
     extend: {},
     colors: {
-      'red': {
+      'rose': {
         light: '#F43F5E',
         dark: '#BE123C'
       },
       'blue': '#5AADD3',
+      'red': colors.red,
       'gray': colors.gray,
       'white': colors.white,
     },
