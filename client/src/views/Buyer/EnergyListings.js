@@ -2,19 +2,23 @@
 import { useState } from "react";
 import {useForm} from "react-hook-form";
 import axios from 'axios';
+import {omit} from 'lodash'
 
 const EnergyListings = ({ filteredEntries }) => {
-    const[selected, setSelected] = useState(null)
+    const[selected, setSelected] = useState(null);
+    const[errors, setErrors] = useState({});
+    const[values, setValues] = useState({});
     // const[sentOffer, setSentOffer] = useState((false, null))
     // const[msg, setMsg] = useState('')
     // const[email, setEmail] = useState('')
+    const [sentOffer, setSentOffer] = useState(false)
 
-    //new
-    // const [sentOffer, setSentOffer] = useState(false)
-
-    const { register, handleSubmit, reset, formState: {errors} } = useForm({
-        mode: "onChange"
-      });
+    //old working thing
+    // const { register, handleSubmit, reset, formState: {errors} } = useForm({
+    //     mode: "onChange"
+    //   });
+    const { handleSubmit, reset } = useForm();
+    //new 
 
     const validation = {
         email: { required: "Email address is required"}, 
@@ -29,7 +33,7 @@ const EnergyListings = ({ filteredEntries }) => {
             // console.log('in toggle')
             // setSentOffer(false)
             // reset({email: '', msg: ''});
-
+            reset(values)
             return setSelected(null)
             
         }
@@ -37,6 +41,7 @@ const EnergyListings = ({ filteredEntries }) => {
         setSelected(i)
 
         //new
+        reset(values)
         // setSentOffer(false)
         // reset({email: '', msg: ''});
     }
@@ -51,16 +56,71 @@ const EnergyListings = ({ filteredEntries }) => {
         console.error(errors);
     }
 
+    //new
+    const handleChange = (event) => {
+        event.persist()
+
+        let name = event.target.name;
+        let value = event.target.value;
+
+        validate(event, name, value);
+
+        // add set values
+        console.log(errors)
+        setValues({
+            ...values, 
+            [name]: value,
+        })
+    }
+
+    const validate = (event, name, value) => {
+        switch (name) {
+            case 'email':
+                // If input isn't an email
+                if (!new RegExp( /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/).test(value)) {
+                    setErrors({
+                        ...errors,
+                        email: 'Email must be a valid email address'
+                    })
+                }
+                else {
+                    // remove error 
+                    let newObj = omit (errors, "email");
+                    setErrors(newObj)
+                }
+                break;
+            
+            case 'msg':
+                if (value.length < 1){
+                    setErrors({
+                        ...errors,
+                        msg: 'Message is required'
+                    })
+                }
+                else {
+                    let newObj = omit (errors, "msg");
+                    setErrors(newObj)
+                }
+            break;
+
+            default:
+                break;
+        }
+    }
+
     const sendOffer = async (data, event) => {
         event.preventDefault();
         const sellerID = data.sellerID
         console.log('made it inside sendOffer')
+
         try {
             const response = await axios.post('/sellers/${sellerID}/offers', data)
             // setSentOffer((true, selected))
-            // if (response.status === 200) {
-            //     setSentOffer(true)
-            //   }
+            if (response.status === 200) {
+                setSentOffer(true)
+                // reset({email:'', msg:''})
+                reset();
+              }
         }
         catch(error){
             console.log('Error submitting offer ', error)
@@ -131,19 +191,32 @@ const EnergyListings = ({ filteredEntries }) => {
                                     <br></br>
                                     
                                     <form onSubmit={handleSubmit((data, e) => {
+                                        e.preventDefault()
                                         console.log('made it to onSubmit')
+                                        data.email = values.email
+                                        data.msg = values.msg
                                         data.sellerID = item.sellerID
-                                        sendOffer(data, e)
+
+                                        if (Object.keys(errors).length === 0 && Object.keys(values).length !== 0) {
+                                            console.log(data)
+                                            sendOffer(data, e)
+                                            
+                                        }
+                                        else {
+                                            alert("There is an error")
+                                        }
+                                       
                                     }, onErrors)}>
                                         <div>
                                             <label htmlFor="email">Email: </label>
                                             <input type = "text" id = "email" name = "email"
                                                    placeholder = "MyEmail@gmail.com"
-                                                   {...register('email', validation.email)} 
+                                                   onChange={handleChange}
                                                    className ={"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"}/>
                                             <small className="text-red-500">
-                                                {console.log(errors?.email)}
-                                                {errors?.email && errors.email.message}
+                                                {errors.email && <p>{errors.email}</p>}
+                                                {/* {console.log(errors?.email)}
+                                                {errors?.email && errors.email.message} */}
                                             </small>
                                         </div>
                                        
@@ -153,11 +226,12 @@ const EnergyListings = ({ filteredEntries }) => {
                                             {/* <br></br> */}
                                             <input type = "text" id = "msg" name = "msg" 
                                                    placeholder = "Hello!" 
-                                                   {...register('msg', validation.msg)} 
+                                                   onChange={handleChange}
                                                    className ={"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" + (errors?.msg ? " border-red-500" : "")}/>
                                             <small className="text-red-500">
+                                                {errors.msg && <p>{errors.msg}</p>}
                                                 {/* {console.log(errors)} */}
-                                                {errors?.msg && errors.msg.message}
+                                                {/* {errors?.msg && errors.msg.message} */}
                                             </small>
 
                                         </div>
