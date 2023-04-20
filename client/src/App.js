@@ -17,6 +17,10 @@ function App() {
   // Will either be changed to FALSE or hold the logged in users ID
   const [authID, setAuthID] = useState(null);
 
+  // Defines the current state of a users energy listing, ACTIVE, INACTIVE, or NONE
+  const [listingStatus, setListingStatus] = useState(false);
+  const [listing, setListing] = useState(false);
+
   // Check if there is a user currently logged in or not
   useEffect(() => {
     async function fetchUser() {
@@ -34,7 +38,8 @@ function App() {
   return (
     <Router>
       <>
-        <Navbar authID={ authID } setAuthID={ setAuthID } />
+        <Navbar authID={ authID } setAuthID={ setAuthID } listing={ listing } 
+                listingStatus={ listingStatus } setListingStatus={ setListingStatus } />
         <div className="bg-white min-h-screen">
           <Routes>
             {/* Public Routes */}
@@ -57,7 +62,8 @@ function App() {
             {/* Protected Routes */}
             <Route path="dashboard" element={
               <RequireAuth authID={ authID }>
-                <Dashboard authID={ authID }/>
+                <Dashboard authID={ authID } listing={ listing } setListing={ setListing } 
+                           listingStatus={ listingStatus } setListingStatus={ setListingStatus }/>
               </RequireAuth>}/>
             
             {/* Catch All */}

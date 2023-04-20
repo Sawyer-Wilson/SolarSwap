@@ -9,7 +9,7 @@ const navLinks = [
 ]
 
 // navigation bar component
-const Navbar = ({ authID, setAuthID }) => {
+const Navbar = ({ authID, setAuthID, listing, listingStatus, setListingStatus }) => {
   return ( 
     <nav className="bg-gray-800 mx-auto px-6 h-16 flex justify-between items-center">
 
@@ -38,7 +38,9 @@ const Navbar = ({ authID, setAuthID }) => {
       </div>
 
       {/* Display either Profile dropdown or Quick Actions */}
-      { authID ? <ProfileDropdown setAuthID={ setAuthID }/> : <QuickActions/> }
+      { authID ? <ProfileDropdown authID={ authID } setAuthID={ setAuthID } 
+                                  listing={ listing } listingStatus={ listingStatus }
+                                  setListingStatus={ setListingStatus }/> : <QuickActions/> }
     </nav>
    );
 }

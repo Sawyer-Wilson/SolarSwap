@@ -7,16 +7,10 @@ import PublishListing from "./PublishListing";
 import NoListingBlurb from "./NoListingBlurb";
 import ImpactBoxes from '../../components/ImpactBoxes';
 
-const Dashboard = ({ authID }) => {
+const Dashboard = ({ authID, listing, setListing, listingStatus, setListingStatus }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState(false);
-  // eslint-disable-next-line
-  const [listing, setListing] = useState(false);
   const [offers, setOffers] = useState(false);
-
-  // Listing Status defines the current state of a users energy listing
-  const ACTIVE = 1, INACTIVE = 2, NONE = 3;
-  const [listingStatus, setListingStatus] = useState(false);
 
   // Fetch user's information and their energy listing
   useEffect(() => {
@@ -30,9 +24,9 @@ const Dashboard = ({ authID }) => {
         if (resUser.data.hasOwnProperty('listingID')) {
           const resListing = (await axios.get(`/energy-listings/${ resUser.data.listingID }`));
           setListing(resListing.data);
-          resListing.data.isActive ? setListingStatus(ACTIVE) : setListingStatus(INACTIVE);
+          resListing.data.isActive ? setListingStatus("ACTIVE") : setListingStatus("INACTIVE");
         } else {
-          setListingStatus(NONE);
+          setListingStatus("NONE");
         }
 
         // Get seller's offers
@@ -45,7 +39,7 @@ const Dashboard = ({ authID }) => {
       }
     }
     fetchInfo();
-  }, [authID, navigate])
+  }, [authID, navigate, setListing, setListingStatus])
 
   // Wait for user data to be fetched before rendering page
   if (!user || !listingStatus || !offers) {
@@ -54,14 +48,14 @@ const Dashboard = ({ authID }) => {
   
   return ( 
     <div className="flex lg:flex-row lg:justify-center lg:items-start flex-col items-center">
-      <div className="m-8 w-3/4 lg:w-2/5 flex flex-col space-y-8">
-        { (listingStatus === INACTIVE) && <PublishListing /> }
+      <div className="mx-8 my-14 w-3/4 lg:w-2/5 flex flex-col space-y-8">
+        { (listingStatus === "INACTIVE") && <PublishListing /> }
         <Offers />
-        { (listingStatus === ACTIVE) && <EnergyListing /> }
+        { (listingStatus === "ACTIVE") && <EnergyListing /> }
       </div>
-      <div className="m-8 w-3/4 lg:w-1/4">
-        { (listingStatus === NONE) && <NoListingBlurb /> }
-        { (listingStatus !== NONE) && <ImpactBoxes listing={ listing } /> }
+      <div className="mx-8 my-16 w-3/4 lg:w-1/4">
+        { (listingStatus === "NONE") && <NoListingBlurb /> }
+        { (listingStatus !== "NONE") && <ImpactBoxes listing={ listing } /> }
       </div>
       
     </div>

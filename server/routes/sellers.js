@@ -67,7 +67,8 @@ router.put("/:id", requireSellerID, async (req, res) => {
   }
 
   // Update fields
-  if (listingID) seller.listingID = listingID;
+  if (listingID === "NONE") { seller.listingID = undefined }
+  else if (listingID) { seller.listingID = listingID }
   if (firstName) seller.firstName = firstName;
   if (lastName) seller.lastName = lastName;
   if (email) seller.email = email;
