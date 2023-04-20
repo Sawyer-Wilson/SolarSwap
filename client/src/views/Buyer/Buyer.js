@@ -26,10 +26,9 @@ const Buyer = () => {
     .catch(error => console.error('Error: ${error}'));
   }
 
- 
 
   return (
-    <div className= "pt-7 px-64 content-center">
+    <div className= "pt-7 px-64 content-center"> 
       <h1 className="text-5xl py-9">Find Clean Utility Credit at Discounted Rates</h1>
     
     <div className="grid grid-cols-2">

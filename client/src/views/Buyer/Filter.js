@@ -24,12 +24,12 @@ const Filter = ({ listings, setFilteredEntries }) => {
 
     return (
         <div className = "filter">
-            <div className="search-header" class = "max-w-sm bg-white rounded overflow-hidden shadow-lg w-[404px] h-[277px] pl-5 pr-5">
-                <div className="search-text" class = "text-xl pb-2 pt-4 pl-5">01. MUNICIPALITY:</div>
+            <div id="search-header" className = "max-w-sm bg-white rounded overflow-hidden shadow-lg w-[404px] h-[277px] pl-5 pr-5">
+                <div id="search-text" className = "text-xl pb-2 pt-4 pl-5">01. MUNICIPALITY:</div>
                 <Dropdown isSearchable placeHolder="Select..." options={municipalities} onChange={(value) => {setMunicipality(value.value)}}></Dropdown>
-                <div className="search-text" class = "text-xl pb-2 pt-2 pl-5">02. UTILITY PROVIDER:</div>
+                <div id="search-text" className = "text-xl pb-2 pt-2 pl-5">02. UTILITY PROVIDER:</div>
                 <Dropdown isSearchable placeHolder="Select..." options={utilityProviders} onChange={(value) => {setUtilityProvider(value.value)}}></Dropdown>
-                <button onClick={handleSearchChange} class = "button3 mt-5" >View Offers</button>
+                <button onClick={handleSearchChange} className = "button3 mt-5" >View Offers</button>
             </div>
         </div>
                 
