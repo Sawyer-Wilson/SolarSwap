@@ -16,6 +16,14 @@ const Login = ({ setAuthID }) => {
     password: { required: "Password is required"}
   }
   
+  //delete this
+  const onErrors = (errors) => {
+    console.log('made it to onErrors')
+    console.error(errors);
+}
+
+
+
   // Called when login form gets submitted
   const handleLogin = async (data, event) => {
     // Prevent submit button from refreshing the page
@@ -52,7 +60,7 @@ const Login = ({ setAuthID }) => {
         </div>
       }
 
-      <form onSubmit={ handleSubmit(handleLogin) } 
+      <form onSubmit={ handleSubmit(handleLogin, onErrors) } 
             className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
 
         {/* Email Field */}

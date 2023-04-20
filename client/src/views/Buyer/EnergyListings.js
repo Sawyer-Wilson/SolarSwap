@@ -8,10 +8,12 @@ const EnergyListings = ({ filteredEntries }) => {
     // const[sentOffer, setSentOffer] = useState((false, null))
     // const[msg, setMsg] = useState('')
     // const[email, setEmail] = useState('')
+
+    //new
     // const [sentOffer, setSentOffer] = useState(false)
 
     const { register, handleSubmit, reset, formState: {errors} } = useForm({
-        mode: "onSubmit"
+        mode: "onChange"
       });
 
     const validation = {
@@ -20,8 +22,11 @@ const EnergyListings = ({ filteredEntries }) => {
       }
 
     const toggle = (i) => {
+        console.log('in toggle outside')
+        // closing the offer by re-clicking the opened one
         if(selected === i) {
             //new
+            // console.log('in toggle')
             // setSentOffer(false)
             // reset({email: '', msg: ''});
 
@@ -41,7 +46,10 @@ const EnergyListings = ({ filteredEntries }) => {
         return new Date(dateString).toLocaleDateString(undefined, options)
     }
 
-
+    const onErrors = (errors) => {
+        console.log('made it to onErrors')
+        console.error(errors);
+    }
 
     const sendOffer = async (data, event) => {
         event.preventDefault();
@@ -50,6 +58,9 @@ const EnergyListings = ({ filteredEntries }) => {
         try {
             const response = await axios.post('/sellers/${sellerID}/offers', data)
             // setSentOffer((true, selected))
+            // if (response.status === 200) {
+            //     setSentOffer(true)
+            //   }
         }
         catch(error){
             console.log('Error submitting offer ', error)
@@ -123,19 +134,34 @@ const EnergyListings = ({ filteredEntries }) => {
                                         console.log('made it to onSubmit')
                                         data.sellerID = item.sellerID
                                         sendOffer(data, e)
-                                    })}>
-                                        <label for="email">Email: </label>
-                                        <input type = "text" id = "email" placeholder = "MyEmail@gmail.com" {...register('email', validation.email)} className ={"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" + (errors?.email ? " border-red-500" : "")}></input>
-                                        <small className="text-red-500">
-                                            {errors?.email && errors.email.message}
-                                        </small>
-                                        <br></br>
-                                        <label for="msg">Message to the Seller: </label>
-                                        <br></br>
-                                        <input type = "text" id = "msg" placeholder = "Hello!" {...register('msg', validation.msg)} className ={"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" + (errors?.msg ? " border-red-500" : "")}></input>
-                                        <small className="text-red-500">
-                                            {errors?.msg && errors.msg.message}
-                                        </small>
+                                    }, onErrors)}>
+                                        <div>
+                                            <label htmlFor="email">Email: </label>
+                                            <input type = "text" id = "email" name = "email"
+                                                   placeholder = "MyEmail@gmail.com"
+                                                   {...register('email', validation.email)} 
+                                                   className ={"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"}/>
+                                            <small className="text-red-500">
+                                                {console.log(errors?.email)}
+                                                {errors?.email && errors.email.message}
+                                            </small>
+                                        </div>
+                                       
+                                        {/* <br></br> */}
+                                        <div>
+                                            <label htmlFor="msg">Message to the Seller: </label>
+                                            {/* <br></br> */}
+                                            <input type = "text" id = "msg" name = "msg" 
+                                                   placeholder = "Hello!" 
+                                                   {...register('msg', validation.msg)} 
+                                                   className ={"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" + (errors?.msg ? " border-red-500" : "")}/>
+                                            <small className="text-red-500">
+                                                {/* {console.log(errors)} */}
+                                                {errors?.msg && errors.msg.message}
+                                            </small>
+
+                                        </div>
+                                      
                                         <br></br>
                                         {/* <input type="text" id = "sellerID">{item.sellerID}</input> */}
                                         <div class = "pb-8">
