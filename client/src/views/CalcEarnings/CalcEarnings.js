@@ -1,5 +1,5 @@
-import Listing from "../../components/Listing";
-import Impact from "../../components/Impact";
+import ListingForm from "../../components/ListingForm";
+import ImpactBoxes from "../../components/ImpactBoxes";
 import axios from 'axios';
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
@@ -57,12 +57,10 @@ const CalcEarnings = ({ authID }) => {
   return ( 
     <div className="flex lg:flex-row lg:justify-center lg:items-start flex-col items-center">
       <div className="m-8 w-3/4 lg:w-2/5">
-        <Listing listing={ listing } setListing={ setListing } handleSaveInfo={ handleSaveInfo }/>
+        <ListingForm listing={ listing } setListing={ setListing } handleSaveInfo={ handleSaveInfo }/>
       </div>
       <div className="m-8 w-3/4 lg:w-1/4">
-        <div className="flex lg:flex-col lg:space-y-8 lg:space-x-0 flex-row space-x-8">
-          <Impact listing={ listing } />
-        </div>
+        <ImpactBoxes listing={ listing } />
       </div>
     </div>
   );

@@ -33,15 +33,10 @@ const Register = ({ setAuthID }) => {
     // Prevent submit button from refreshing the page
     event.preventDefault();
 
+    let userID;
     try {
       // Register user
-      const userID = (await axios.post('/auth/register', data)).data;
-
-      // Log user in
-      setAuthID(userID);
-
-      // Clear data from registration form
-      reset();
+      userID = (await axios.post('/auth/register', data)).data;
 
       // If user came from Calc Earnings page...
       if (location.state && location.state.listing) {
@@ -54,20 +49,22 @@ const Register = ({ setAuthID }) => {
 
           // Set Energy Listing ID of Seller Document
           await axios.put(`/sellers/${ userID }`, { listingID: res.data._id });
-          
         } catch (error) {
           console.log('Error Saving Energy Listing: ', error)
           navigate('/error');
         }
-
-        // Redirect user to their dashboard
-        navigate('/dashboard');
       }
     } catch (error) {
       console.log('Login error: ', error)
       reset();
       navigate('/error');
     }
+    // Clear data from registration form
+    reset();
+
+    // Log user in and redirect them to their dashboard
+    setAuthID(userID);
+    navigate('/dashboard');
   }
 
   return (

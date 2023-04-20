@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-const Listing = ({ handleSaveInfo, listing, setListing }) => {
+const ListingForm = ({ handleSaveInfo, listing, setListing }) => {
   const { register, handleSubmit, watch, formState: {errors} } = useForm({
     mode: "onChange"
   });
@@ -148,4 +148,4 @@ const Listing = ({ handleSaveInfo, listing, setListing }) => {
   );
 }
  
-export default Listing;
+export default ListingForm;
