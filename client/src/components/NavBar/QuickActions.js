@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 // Quick Actions link information
 const quickActions = [
   { name: 'Register', path: '/register'},
-  { name: 'Login', path: '/login'}
+  { name: 'Sign In', path: '/sign-in'}
 ]
 
 const QuickActions = () => {

@@ -7,7 +7,7 @@ import Home from '@views/Home/Home'
 import IWantSolar from '@views/IWantSolar/IWantSolar'
 import IHaveSolar from '@views/IHaveSolar/IHaveSolar'
 import CalcEarnings from "./views/CalcEarnings/CalcEarnings";
-import Login from '@views/Login/Login'
+import SignIn from '@views/SignIn/SignIn'
 import Register from '@views/Register/Register'
 import Dashboard from '@views/Dashboard/Dashboard'
 import Error from '@views/Error/Error'
@@ -50,9 +50,9 @@ function App() {
             <Route path="error" element={<Error/>} />
 
             {/* Routes only for un-authenticated users */}
-            <Route path="login" element={
+            <Route path="sign-in" element={
               <PreventAuth authID={ authID }>
-                <Login setAuthID={ setAuthID }/>
+                <SignIn setAuthID={ setAuthID }/>
               </PreventAuth>}/>
             <Route path="register" element={
               <PreventAuth authID={ authID }>
