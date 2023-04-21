@@ -12,7 +12,7 @@ const ProfileDropdown = ({ authID, setAuthID, listing, listingStatus, setListing
 
       // Log user out and redirect to login page
       setAuthID(false);
-      navigate('/login');
+      navigate('/sign-in');
     } catch (error) {
       navigate('/error');
       console.log('Logout error: ', error);
@@ -69,6 +69,14 @@ const ProfileDropdown = ({ authID, setAuthID, listing, listingStatus, setListing
             <Link to='/dashboard'
                   className='hover:bg-gray-100 block px-4 py-2 text-sm text-gray-700'>
                 Dashboard
+            </Link>
+          </Menu.Item>
+
+          {/* EDIT ACCOUNT INFO LINK */}
+          <Menu.Item>
+            <Link to='/edit-account'
+                  className='hover:bg-gray-100 block px-4 py-2 text-sm text-gray-700'>
+                Edit Account Info
             </Link>
           </Menu.Item>
 

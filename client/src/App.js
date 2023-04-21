@@ -10,6 +10,7 @@ import CalcEarnings from "./views/CalcEarnings/CalcEarnings";
 import SignIn from '@views/SignIn/SignIn'
 import Register from '@views/Register/Register'
 import Dashboard from '@views/Dashboard/Dashboard'
+import EditAccount from '@views/EditAccount/EditAccount'
 import Error from '@views/Error/Error'
 import PageNotFound from '@views/PageNotFound/PageNotFound'
 
@@ -64,6 +65,10 @@ function App() {
               <RequireAuth authID={ authID }>
                 <Dashboard authID={ authID } listing={ listing } setListing={ setListing } 
                            listingStatus={ listingStatus } setListingStatus={ setListingStatus }/>
+              </RequireAuth>}/>
+            <Route path="edit-account" element={
+              <RequireAuth authID={ authID }>
+                <EditAccount authID={ authID }/>
               </RequireAuth>}/>
             
             {/* Catch All */}

@@ -7,7 +7,7 @@ function RequireAuth ({ children, authID }) {
     return children;
   } else {
     // If user is NOT logged in, redirect them to login page
-    return <Navigate to="/login" replace/>
+    return <Navigate to="/sign-in" replace/>
   }
 };
 
