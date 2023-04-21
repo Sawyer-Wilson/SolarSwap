@@ -96,8 +96,8 @@ router.post("/", requireLogin, async (req, res) => {
  * listing
  */
 router.put("/:id", requireListingID, async (req, res) => {
-  const { sellerFirstName, municipality, utilityProvider, avgMonthlyOverage, 
-          pctOverageToSell, askingRate } = req.body;
+  const { isActive, sellerFirstName, municipality, utilityProvider, 
+          avgMonthlyOverage, pctOverageToSell, askingRate } = req.body;
   const { id } = req.params;
   let error = {};
   let errorCode = 400;
@@ -122,6 +122,7 @@ router.put("/:id", requireListingID, async (req, res) => {
   }
 
   // Update fields
+  if (typeof isActive !== 'undefined') listing.isActive = isActive;
   if (sellerFirstName) listing.sellerFirstName = sellerFirstName;
   if (municipality) listing.municipality = municipality;
   if (utilityProvider) listing.utilityProvider = utilityProvider;

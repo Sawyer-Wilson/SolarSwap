@@ -31,6 +31,17 @@ const ProfileDropdown = ({ authID, setAuthID, listing, listingStatus, setListing
     }
   }
 
+  const onUnpublishListing = async () => {
+    try {
+      await axios.put(`/energy-listings/${ listing._id }`, { isActive: false });
+
+      setListingStatus("INACTIVE");
+    } catch (error) {
+      navigate('/error');
+      console.log('Error Unpublishing Energy Listing: ', error);
+    }
+  }
+
   return ( 
     <Menu as="div" className="relative ml-3">
 
@@ -62,6 +73,13 @@ const ProfileDropdown = ({ authID, setAuthID, listing, listingStatus, setListing
           </Menu.Item>
 
           {/* UNPUBLISH LISTING BUTTON */}
+          { (listingStatus === "ACTIVE") && 
+            <Menu.Item>
+              <button onClick={ onUnpublishListing }
+                      className='hover:bg-gray-100 block px-4 py-2 text-sm text-gray-700 w-full text-left'>
+                Unpublish Listing
+              </button>
+            </Menu.Item>}
 
           {/* DELETE LISTING BUTTON */}
           { (listingStatus !== "NONE") && 
