@@ -17,7 +17,7 @@ const Home = () => {
         <div className="m-12 w-3/4 lg:w-1/8 p-4 rounded-xl backdrop-blur-xl backdrop-contrast-150 bg-white/30">
           <div className="my-3 px-4">
             <Link to='/i-want-solar' 
-                  className="flex justify-center bg-red-light hover:bg-red-dark text-white font-bold p-4 rounded-lg text-2xl">
+                  className="flex justify-center bg-rose-light hover:bg-rose-dark text-white font-bold p-4 rounded-lg text-2xl">
               I don't have a Solar System
             </Link>
           </div>
@@ -33,7 +33,7 @@ const Home = () => {
         <div className="m-12 w-3/4 lg:w-1/8 p-4 rounded-xl backdrop-blur-2xl backdrop-contrast-150 bg-white/30">
           <div className="my-3 px-4">
             <Link to='/i-have-solar' 
-              className="flex justify-center bg-red-light hover:bg-red-dark text-white font-bold w-full p-4 rounded-lg text-2xl">
+              className="flex justify-center bg-rose-light hover:bg-rose-dark text-white font-bold w-full p-4 rounded-lg text-2xl">
               I have a Solar System
             </Link>
           </div>
