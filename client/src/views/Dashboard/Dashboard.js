@@ -47,13 +47,13 @@ const Dashboard = ({ authID, listing, setListing, listingStatus, setListingStatu
   }
   
   return ( 
-    <div className="flex lg:flex-row lg:justify-center lg:items-start flex-col items-center">
-      <div className="mx-8 my-14 w-3/4 lg:w-2/5 flex flex-col space-y-8">
+    <div className="flex lg:flex-row lg:justify-center lg:items-start lg:space-x-16 flex-col items-center space-y-16">
+      <div className="my-16 w-3/4 lg:w-2/5 flex flex-col space-y-8">
         { (listingStatus === "INACTIVE") && <PublishListing /> }
-        <Offers />
+        <Offers offers={ offers } setOffers={ setOffers } authID={ authID } />
         { (listingStatus === "ACTIVE") && <EnergyListing /> }
       </div>
-      <div className="mx-8 my-16 w-3/4 lg:w-1/4">
+      <div className="my-16 w-3/4 lg:w-1/4">
         { (listingStatus === "NONE") && <NoListingBlurb /> }
         { (listingStatus !== "NONE") && <ImpactBoxes listing={ listing } /> }
       </div>

@@ -48,7 +48,7 @@ const ListingForm = ({ handleSaveInfo, listing, setListing }) => {
         {/* System Info */}
         <div className="rounded-lg shadow-lg overflow-hidden">
           {/* Header */}
-          <div className="bg-blue">
+          <div className="bg-blue-light">
             <p className="text-gray-100 font-bold text-2xl p-3 px-8">SYSTEM INFO</p>
           </div>
           {/* Body */}
@@ -99,7 +99,7 @@ const ListingForm = ({ handleSaveInfo, listing, setListing }) => {
         {/* Listing Info */}
         <div className="rounded-lg shadow-lg overflow-hidden">
           {/* Header */}
-          <div className="bg-blue">
+          <div className="bg-blue-light">
             <p className="text-gray-100 font-bold text-2xl p-3 px-8">LISTING INFO</p>
           </div>
           {/* Body */}

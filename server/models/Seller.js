@@ -7,21 +7,18 @@ const sellerSchema = new Mongoose.Schema({
 	firstName: {
 		type: String,
 		required: true,
-    lowercase: true,
     maxLength: 50,
     match: /^[a-z ,.'-]+$/i
 	},
 	lastName: {
 		type: String,
 		required: true,
-    lowercase: true,
     maxLength: 50,
     match: /^[a-z ,.'-]+$/i
 	},
 	email: {
 		type: String,
     required: true,
-    lowercase: true,
     minLength: 3,
     maxLength: 255,
     match: /^\S+@\S+\.\S+$/

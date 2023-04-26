@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const NoListingBlurb = () => {
   return ( 
     <div className="flex flex-col space-y-8">
-      <p className="font-bold text-4xl tracking-wider	leading-normal">
+      <p className="font-bold text-4xl tracking-wider	leading-normal text-gray-800">
         Don't Get Stuck With Utility Credit. Convert To Cash.
       </p>
       <Link 
