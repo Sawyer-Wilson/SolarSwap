@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 
-const Login = ({ setAuthID }) => {
+const SignIn = ({ setAuthID }) => {
   const navigate = useNavigate();
   const [invalidCreds, setInvalidCreds] = useState(false);
   const { register, handleSubmit, reset, formState: {errors} } = useForm({
@@ -96,4 +96,4 @@ const Login = ({ setAuthID }) => {
   );
 }
  
-export default Login;
+export default SignIn;

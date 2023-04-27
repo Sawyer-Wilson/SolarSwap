@@ -3,21 +3,42 @@ import profileIcon from './profile-icon.png';
 import { Link, useNavigate} from "react-router-dom";
 import axios from 'axios';
 
-const ProfileDropdown = ({ setAuthID }) => {
+const ProfileDropdown = ({ authID, setAuthID, listing, listingStatus, setListingStatus }) => {
   const navigate = useNavigate();
 
   const onLogout = async () => {
-    // Call auth login endpoint to log user out
     try {
-      const response = await axios.post('/auth/logout');
+      await axios.post('/auth/logout');
 
-      if (response.status === 200) {
-        setAuthID(false);
-        navigate('/login');
-      }
+      // Log user out and redirect to login page
+      setAuthID(false);
+      navigate('/sign-in');
     } catch (error) {
       navigate('/error');
       console.log('Logout error: ', error);
+    }
+  }
+
+  const onDeleteListing = async () => {
+    try {
+      await axios.delete(`/energy-listings/${ listing._id }`);
+      await axios.put(`/sellers/${ authID }`, { listingID: "NONE" });
+
+      setListingStatus("NONE");
+    } catch (error) {
+      navigate('/error');
+      console.log('Error Deleting Energy Listing: ', error);
+    }
+  }
+
+  const onUnpublishListing = async () => {
+    try {
+      await axios.put(`/energy-listings/${ listing._id }`, { isActive: false });
+
+      setListingStatus("INACTIVE");
+    } catch (error) {
+      navigate('/error');
+      console.log('Error Unpublishing Energy Listing: ', error);
     }
   }
 
@@ -42,22 +63,49 @@ const ProfileDropdown = ({ setAuthID }) => {
       >
         {/* Dropdown menu links */}
         <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg">
-          <Menu.Item>{({ active }) => (
+
+          {/* DASHBOARD LINK */}
+          <Menu.Item>
             <Link to='/dashboard'
-                  className={active ? 
-                    'bg-gray-100 block px-4 py-2 text-sm text-gray-700' : 
-                    'block px-4 py-2 text-sm text-gray-700'}>
+                  className='hover:bg-gray-100 block px-4 py-2 text-sm text-gray-700'>
                 Dashboard
             </Link>
-          )}</Menu.Item>
-          <Menu.Item>{({ active }) => (
+          </Menu.Item>
+
+          {/* EDIT ACCOUNT INFO LINK */}
+          <Menu.Item>
+            <Link to='/edit-account'
+                  className='hover:bg-gray-100 block px-4 py-2 text-sm text-gray-700'>
+                Edit Account Info
+            </Link>
+          </Menu.Item>
+
+          {/* UNPUBLISH LISTING BUTTON */}
+          { (listingStatus === "ACTIVE") && 
+            <Menu.Item>
+              <button onClick={ onUnpublishListing }
+                      className='hover:bg-gray-100 block px-4 py-2 text-sm text-gray-700 w-full text-left'>
+                Unpublish Listing
+              </button>
+            </Menu.Item>}
+
+          {/* DELETE LISTING BUTTON */}
+          { (listingStatus !== "NONE") && 
+            <Menu.Item>
+              <button onClick={ onDeleteListing }
+                      className='hover:bg-gray-100 block px-4 py-2 text-sm text-gray-700 w-full text-left'>
+                Delete Listing
+              </button>
+            </Menu.Item>}
+
+          {/* LOGOUT BUTTON */}
+          <Menu.Item>
             <button onClick={ onLogout }
-              className={active ? 
-                'bg-gray-100 block px-4 py-2 text-sm text-gray-700 w-full text-left' : 
-                'block px-4 py-2 text-sm text-gray-700 w-full text-left'}>
-                Logout
+                    className='hover:bg-gray-100 block px-4 py-2 text-sm text-gray-700 w-full text-left'>
+              Logout
             </button>
-          )}</Menu.Item>
+          </Menu.Item>
+
         </Menu.Items>
       </Transition>
     </Menu>

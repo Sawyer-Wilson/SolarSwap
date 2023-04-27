@@ -1,5 +1,6 @@
 const express = require("express");
 const { requireSellerID } = require("../middleware/authenticate");
+const { encrypt } = require('./../utils/encryption');
 const router = express.Router();
 
 // Load Seller model
@@ -30,7 +31,7 @@ router.get("/:id", requireSellerID, async (req, res) => {
  * Updates the seller with the specified ID and returns the updated seller
  */
 router.put("/:id", requireSellerID, async (req, res) => {
-  const { listingID, firstName, lastName, email } = req.body;
+  const { listingID, firstName, lastName, email, password } = req.body;
   const { id } = req.params;
   let error = {};
   let errorCode = 400;
@@ -50,7 +51,7 @@ router.put("/:id", requireSellerID, async (req, res) => {
   }
 
   // Ensure email is unique
-  if (email) {
+  if (email && email !== seller.email) {
     try {
       const sellerId = await Seller.exists({ email: email });
       if (sellerId) {
@@ -67,10 +68,16 @@ router.put("/:id", requireSellerID, async (req, res) => {
   }
 
   // Update fields
-  if (listingID) seller.listingID = listingID;
+  if (listingID === "NONE") { seller.listingID = undefined }
+  else if (listingID) { seller.listingID = listingID }
   if (firstName) seller.firstName = firstName;
   if (lastName) seller.lastName = lastName;
   if (email) seller.email = email;
+  if (password) { 
+    const { salt, encryptedPass } = encrypt(password);
+    seller.salt = salt;
+    seller.hash = encryptedPass;
+  }
 
   // Save updated seller to database
   try {

@@ -1,4 +1,4 @@
-const Impact = ({ listing }) => {
+const ImpactBoxes = ({ listing }) => {
   const { avgMonthlyOverage, pctOverageToSell, askingRate } = listing;
   let monthlyProfit = 0, lifeTimeProfit = 0, CO2Emissions = 0, roadTrips = 0;
 
@@ -12,11 +12,11 @@ const Impact = ({ listing }) => {
   } 
 
   return ( 
-    <>
+    <div className="flex lg:flex-col lg:space-y-8 lg:space-x-0 flex-row space-x-8">
       {/* FINANCIAL IMPACT */}
       <div className="rounded-lg shadow-lg overflow-hidden">
         {/* Header */}
-        <div className="bg-blue">
+        <div className="bg-blue-light">
           <p className="text-gray-100 font-bold text-2xl p-3 px-8">FINANCIAL IMPACT</p>
         </div>
         {/* Body */}
@@ -35,7 +35,7 @@ const Impact = ({ listing }) => {
       {/* ENVIRONMENTAL IMPACT */}
       <div className="rounded-lg shadow-lg overflow-hidden">
         {/* Header */}
-        <div className="bg-blue">
+        <div className="bg-blue-light">
           <p className="text-gray-100 font-bold text-2xl p-3 px-8">ENVIRONMENTAL IMPACT</p>
         </div>
         {/* Body */}
@@ -50,8 +50,8 @@ const Impact = ({ listing }) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
  
-export default Impact;
+export default ImpactBoxes;

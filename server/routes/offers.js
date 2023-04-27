@@ -14,11 +14,7 @@ const Offer = require("./../models/Offer");
 router.get("/", requireSellerID, async (req, res) => {
   try {
     const offers = await Offer.find({ sellerID: req.params.id });
-    if (offers.length === 0) {
-      res.status(404).json({ error: "No Offers Found for specified seller" });
-    } else {
-      res.status(200).json(offers);
-    }
+    res.status(200).json(offers);
   } catch (error) {
     res.status(400).json(error);
   }
@@ -30,13 +26,14 @@ router.get("/", requireSellerID, async (req, res) => {
  * and returns the created offer
  */
 router.post("/", async (req, res) => {
-  const { email, message } = req.body;
+  const { email, message, amount } = req.body;
 
   // Create a new Offer instance with the provided fields
   const newOffer = new Offer({
     sellerID: req.params.id,
     email: email,
-    message: message
+    message: message,
+    amount: amount
   });
 
   // Save the new offer in the database
@@ -75,10 +72,10 @@ router.delete("/:offerId", requireSellerID, async (req, res) => {
 
   // Delete offer from database
   try {
-    await Offer.findByIdAndDelete(id);
-    res.status(200).json({ _id: id });
+    await Offer.findByIdAndDelete(offerId);
+    res.status(200).json({ _id: offerId });
   } catch (error) {
-    res.status(400).json(err);
+    res.status(400).json(error);
   }
 });
 

@@ -8,13 +8,16 @@ const offerSchema = new Mongoose.Schema({
 	email: {
 		type: String,
     required: true,
-    lowercase: true,
     minLength: 3,
     maxLength: 255,
     match: /^\S+@\S+\.\S+$/
 	},
   message: {
     type: String,
+    required: true
+  },
+  amount: {
+    type: Number,
     required: true
   }
 }, { timestamps: true });

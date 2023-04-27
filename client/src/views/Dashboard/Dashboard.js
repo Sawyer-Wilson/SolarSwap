@@ -1,44 +1,74 @@
 import axios from 'axios';
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate} from "react-router-dom";
+import Offers from "./Offers";
+import EnergyListing from "./EnergyListing";
+import PublishButton from "./PublishButton";
+import NoListingBlurb from "./NoListingBlurb";
+import ImpactBoxes from '../../components/ImpactBoxes';
 
-const Dashboard = ({ authID }) => {
+const Dashboard = ({ authID, listing, setListing, listingStatus, setListingStatus }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState(false);
-  const [listing, setListing] = useState(false);
-  const [hasListing, setHasListing] = useState(false);
+  const [offers, setOffers] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   // Fetch user's information and their energy listing
   useEffect(() => {
     async function fetchInfo() {
       try {
         // Get seller info
-        const resUser = (await axios.get(`/sellers/${ authID }`));
+        const resUser = await axios.get(`/sellers/${ authID }`);
         setUser(resUser.data);
 
         // Get seller's energy listing if they have one
         if (resUser.data.hasOwnProperty('listingID')) {
           const resListing = (await axios.get(`/energy-listings/${ resUser.data.listingID }`));
           setListing(resListing.data);
-          setHasListing(true);
+          resListing.data.isActive ? setListingStatus("ACTIVE") : setListingStatus("INACTIVE");
+        } else {
+          setListingStatus("NONE");
         }
+
+        // Get seller's offers
+        const resOffers = await axios.get(`/sellers/${ authID }/offers/`);
+        setOffers(resOffers.data)
+
       } catch (error) {
         console.log('Error fetching user information: ', error);
         navigate('/error');
       }
     }
     fetchInfo();
-  }, [authID, navigate])
+  }, [authID, navigate, setListing, setListingStatus])
 
   // Wait for user data to be fetched before rendering page
-  if (!user || (hasListing && !listing)) {
+  if (!user || !listingStatus || !offers) {
     return <></>
   }
   
   return ( 
-    <>
-      <h1>Seller Dashboard</h1>
-    </>
+    <div className="flex lg:flex-row lg:justify-center lg:items-start lg:space-x-16 flex-col items-center space-y-16 pb-16">
+      <div className="my-16 w-3/4 lg:w-2/5 flex flex-col space-y-16">
+        { (listingStatus === "INACTIVE") && 
+          <div className='flex flex-col space-y-8'>
+            <EnergyListing listing={ listing } setListing={ setListing }
+                           isEditing={ isEditing } setIsEditing={ setIsEditing } />
+            { !isEditing && 
+              <PublishButton listing={ listing } setListingStatus={ setListingStatus } />
+            }
+          </div> }
+        <Offers offers={ offers } setOffers={ setOffers } authID={ authID } />
+        { (listingStatus === "ACTIVE") && 
+          <EnergyListing listing={ listing } setListing={ setListing }
+                         isEditing={ isEditing } setIsEditing={ setIsEditing } /> 
+        }
+      </div>
+      <div className="my-16 w-3/4 lg:w-1/4">
+        { (listingStatus === "NONE") && <NoListingBlurb /> }
+        { (listingStatus !== "NONE") && <ImpactBoxes listing={ listing } /> }
+      </div>
+    </div>
    );
 }
  
