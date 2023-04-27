@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   return ( 
-    <div className="bg-auto bg-left min-h-screen bg-[url('./views/Home/background-image.png')]">
+    <div className="bg-auto bg-left min-h-screen bg-[url('./views/Home/background-image.jpg')]">
 
       {/* Page Title */}
       <div className="mb-5 p-12 lg:w-3/4">
