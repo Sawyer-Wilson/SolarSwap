@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react';
 import { useNavigate} from "react-router-dom";
 import Offers from "./Offers";
 import EnergyListing from "./EnergyListing";
-import PublishListing from "./PublishListing";
+import PublishButton from "./PublishButton";
 import NoListingBlurb from "./NoListingBlurb";
 import ImpactBoxes from '../../components/ImpactBoxes';
 
@@ -48,8 +48,12 @@ const Dashboard = ({ authID, listing, setListing, listingStatus, setListingStatu
   
   return ( 
     <div className="flex lg:flex-row lg:justify-center lg:items-start lg:space-x-16 flex-col items-center space-y-16">
-      <div className="my-16 w-3/4 lg:w-2/5 flex flex-col space-y-8">
-        { (listingStatus === "INACTIVE") && <PublishListing /> }
+      <div className="my-16 w-3/4 lg:w-2/5 flex flex-col space-y-16">
+        { (listingStatus === "INACTIVE") && 
+          <div className='flex flex-col space-y-8'>
+            <EnergyListing />
+            <PublishButton listing={ listing } setListingStatus={ setListingStatus } />
+          </div> }
         <Offers offers={ offers } setOffers={ setOffers } authID={ authID } />
         { (listingStatus === "ACTIVE") && <EnergyListing /> }
       </div>
@@ -57,7 +61,6 @@ const Dashboard = ({ authID, listing, setListing, listingStatus, setListingStatu
         { (listingStatus === "NONE") && <NoListingBlurb /> }
         { (listingStatus !== "NONE") && <ImpactBoxes listing={ listing } /> }
       </div>
-      
     </div>
    );
 }

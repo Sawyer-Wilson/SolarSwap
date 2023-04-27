@@ -139,7 +139,7 @@ const ListingForm = ({ handleSaveInfo, listing, setListing }) => {
         {/* Submit/Save Button */}
         <div>
           <button type="submit"
-                  className="bg-rose-light hover:bg-rose-dark text-white font-bold w-full py-4 rounded-lg focus:outline-none focus:shadow-outline">
+                  className="bg-rose-light hover:bg-rose-dark text-white font-bold w-full p-4 rounded-lg">
             Save Info
           </button>
         </div>
