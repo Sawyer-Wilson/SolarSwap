@@ -16,7 +16,7 @@ const PublishButton = ({ listing, setListingStatus }) => {
 
   return ( 
     <button onClick={ onPublish }
-            className="w-full bg-rose-light hover:bg-rose-dark text-white text-md font-bold p-4 rounded-lg">
+            className="w-full bg-rose-light hover:bg-rose-dark text-white text-md p-4 rounded-lg">
       Publish Listing
     </button>
   );

@@ -57,7 +57,8 @@ const CalcEarnings = ({ authID }) => {
   return ( 
     <div className="flex lg:flex-row lg:justify-center lg:items-start flex-col items-center">
       <div className="m-8 w-3/4 lg:w-2/5">
-        <ListingForm listing={ listing } setListing={ setListing } handleSaveInfo={ handleSaveInfo }/>
+        <ListingForm onSubmit={ handleSaveInfo } isEditing={ true } 
+                     listing={ listing } setListing={ setListing } />
       </div>
       <div className="m-8 w-3/4 lg:w-1/4">
         <ImpactBoxes listing={ listing } />

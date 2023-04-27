@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate} from "react-router-dom";
 import Offers from "./Offers";
 import EnergyListing from "./EnergyListing";
@@ -11,6 +11,7 @@ const Dashboard = ({ authID, listing, setListing, listingStatus, setListingStatu
   const navigate = useNavigate();
   const [user, setUser] = useState(false);
   const [offers, setOffers] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   // Fetch user's information and their energy listing
   useEffect(() => {
@@ -47,15 +48,21 @@ const Dashboard = ({ authID, listing, setListing, listingStatus, setListingStatu
   }
   
   return ( 
-    <div className="flex lg:flex-row lg:justify-center lg:items-start lg:space-x-16 flex-col items-center space-y-16">
+    <div className="flex lg:flex-row lg:justify-center lg:items-start lg:space-x-16 flex-col items-center space-y-16 pb-16">
       <div className="my-16 w-3/4 lg:w-2/5 flex flex-col space-y-16">
         { (listingStatus === "INACTIVE") && 
           <div className='flex flex-col space-y-8'>
-            <EnergyListing />
-            <PublishButton listing={ listing } setListingStatus={ setListingStatus } />
+            <EnergyListing listing={ listing } setListing={ setListing }
+                           isEditing={ isEditing } setIsEditing={ setIsEditing } />
+            { !isEditing && 
+              <PublishButton listing={ listing } setListingStatus={ setListingStatus } />
+            }
           </div> }
         <Offers offers={ offers } setOffers={ setOffers } authID={ authID } />
-        { (listingStatus === "ACTIVE") && <EnergyListing /> }
+        { (listingStatus === "ACTIVE") && 
+          <EnergyListing listing={ listing } setListing={ setListing }
+                         isEditing={ isEditing } setIsEditing={ setIsEditing } /> 
+        }
       </div>
       <div className="my-16 w-3/4 lg:w-1/4">
         { (listingStatus === "NONE") && <NoListingBlurb /> }
