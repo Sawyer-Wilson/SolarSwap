@@ -66,14 +66,13 @@ router.post('/register', async (req, res) => {
   try {
     savedSeller = await newSeller.save();
   } catch (error) {
-    res.status(400).json(error);
+    return res.status(400).json(error);
   }
 
   // Login and return created seller
   req.login(savedSeller, ((err) => {
     if (err) { 
       res.status(400).json(err);
-      return next(err); 
     } else {
       res.status(200).json(savedSeller._id);
     }
@@ -89,7 +88,6 @@ router.post('/logout', (req, res) => {
   req.logout(((err) => {
     if (err) {
       res.status(400).json(err);
-      return next(err); 
     } else {
       res.status(200).json({ message: "Successfully logged out" });
     }
