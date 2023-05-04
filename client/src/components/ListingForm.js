@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { municipalities } from "./municipalities";
+import { utilityProviders } from "./utilityProviders";
 
 const ListingForm = ({ onSubmit, isEditing, setIsEditing, defaultValues, listing, setListing }) => {
   const { register, handleSubmit, watch, formState: {errors} } = useForm({
@@ -61,10 +63,18 @@ const ListingForm = ({ onSubmit, isEditing, setIsEditing, defaultValues, listing
                 Municipality: 
               </label>
               { isEditing ?
-                <input type="text" id="municipality" name="municipality"
-                      placeholder="Somerville"
-                      {...register('municipality', validation.municipality)}
-                      className={`w-3/5 border rounded-lg py-2 px-3 leading-tight tracking-wide focus:outline-none ${ errors?.municipality ? "border-red-500" : "border-gray-400" }`}/>
+                <select id="municipality" name="municipality" 
+                        className={`appearance-none w-3/5 border rounded-lg py-2 px-3 leading-tight tracking-wide focus:outline-none ${ errors?.municipality ? 'border-red-500' : 'border-gray-400' }`}
+                        {...register('municipality', validation.municipality)}>
+                  { municipalities.map((municipality) => {
+                    return (
+                      <option value={ municipality.value }
+                              key={ municipality.value }>
+                        { municipality.label }
+                      </option>
+                    )
+                  }) }
+                </select>
                 :
                 <p className="tracking-wide text-xl">{ listing.municipality }</p>
               }
@@ -80,11 +90,18 @@ const ListingForm = ({ onSubmit, isEditing, setIsEditing, defaultValues, listing
                 Utility Provider: 
               </label>
               { isEditing ?
-                <input type="text" id="utilityProvider" name="utilityProvider" 
-                      disabled={ !isEditing }
-                      placeholder="Eversource"
-                      {...register('utilityProvider', validation.utilityProvider)}
-                      className={`w-3/5 border rounded-lg py-2 px-3 leading-tight tracking-wide focus:outline-none ${ errors?.utilityProvider ? "border-red-500" : "border-gray-400" }`}/>
+                <select id="utility-provider" name="utilityProvider" 
+                        className={`appearance-none w-3/5 border rounded-lg py-2 px-3 leading-tight tracking-wide focus:outline-none ${ errors?.utilityProvider ? 'border-red-500' : 'border-gray-400' }`}
+                        {...register('utilityProvider', validation.utilityProvider)}>
+                  { utilityProviders.map((utilityProvider) => {
+                    return (
+                      <option value={ utilityProvider.value }
+                              key={ utilityProvider.value }>
+                        { utilityProvider.label }
+                      </option>
+                    )
+                  }) }
+                </select>
                 :
                 <p className="tracking-wide text-xl">{ listing.utilityProvider }</p>
               }
