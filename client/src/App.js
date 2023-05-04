@@ -2,18 +2,25 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import { RequireAuth, PreventAuth } from '@utils/auth';
-import Navbar from '@components/layouts/NavBar/Navbar';
+import Navbar from '@components/NavBar/Navbar';
 import Home from '@views/Home/Home'
-import Buyer from '@views/Buyer/Buyer'
-import Seller from '@views/Seller/Seller'
-import Login from '@views/Login/Login'
+import IWantSolar from '@views/IWantSolar/IWantSolar'
+import IHaveSolar from '@views/IHaveSolar/IHaveSolar'
+import CalcEarnings from "./views/CalcEarnings/CalcEarnings";
+import SignIn from '@views/SignIn/SignIn'
 import Register from '@views/Register/Register'
 import Dashboard from '@views/Dashboard/Dashboard'
+import EditAccount from '@views/EditAccount/EditAccount'
 import Error from '@views/Error/Error'
+import PageNotFound from '@views/PageNotFound/PageNotFound'
 
 function App() {
   // Will either be changed to FALSE or hold the logged in users ID
   const [authID, setAuthID] = useState(null);
+
+  // Defines the current state of a users energy listing, ACTIVE, INACTIVE, or NONE
+  const [listingStatus, setListingStatus] = useState(false);
+  const [listing, setListing] = useState(false);
 
   // Check if there is a user currently logged in or not
   useEffect(() => {
@@ -32,30 +39,40 @@ function App() {
   return (
     <Router>
       <>
-        <Navbar authID={ authID } setAuthID={ setAuthID } />
-        <div className="bg-white h-screen">
+        <Navbar authID={ authID } setAuthID={ setAuthID } listing={ listing } 
+                listingStatus={ listingStatus } setListingStatus={ setListingStatus } />
+        <div className="bg-white min-h-screen">
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Home />} />
-            <Route path="buyer" element={<Buyer />} />
-            <Route path="seller" element={<Seller />} />
+            <Route path="i-want-solar" element={<IWantSolar />} />
+            <Route path="i-have-solar" element={<IHaveSolar />} />
+            <Route path="calc-earnings" element={<CalcEarnings authID={ authID }/>} />
             <Route path="error" element={<Error/>} />
 
             {/* Routes only for un-authenticated users */}
-            <Route path="login" element={
+            <Route path="sign-in" element={
               <PreventAuth authID={ authID }>
-                <Login setAuthID={ setAuthID }/>
+                <SignIn setAuthID={ setAuthID }/>
               </PreventAuth>}/>
             <Route path="register" element={
               <PreventAuth authID={ authID }>
-                <Register setAuthID={ setAuthID }/>
+                <Register authID={ authID } setAuthID={ setAuthID }/>
               </PreventAuth>}/>
 
             {/* Protected Routes */}
             <Route path="dashboard" element={
               <RequireAuth authID={ authID }>
-                <Dashboard authID={ authID }/>
+                <Dashboard authID={ authID } listing={ listing } setListing={ setListing } 
+                           listingStatus={ listingStatus } setListingStatus={ setListingStatus }/>
               </RequireAuth>}/>
+            <Route path="edit-account" element={
+              <RequireAuth authID={ authID }>
+                <EditAccount authID={ authID }/>
+              </RequireAuth>}/>
+            
+            {/* Catch All */}
+            <Route path="*" element={<PageNotFound />} />
           </Routes>
         </div>
       </>

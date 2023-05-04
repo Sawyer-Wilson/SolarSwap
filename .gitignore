@@ -10,3 +10,4 @@ client/src/index.css
 # misc
 .DS_store
 server/.env
+.vscode

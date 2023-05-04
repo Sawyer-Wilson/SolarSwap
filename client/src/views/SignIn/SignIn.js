@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 
-const Login = ({ setAuthID }) => {
+const SignIn = ({ setAuthID }) => {
   const navigate = useNavigate();
   const [invalidCreds, setInvalidCreds] = useState(false);
   const { register, handleSubmit, reset, formState: {errors} } = useForm({
@@ -21,14 +21,16 @@ const Login = ({ setAuthID }) => {
     // Prevent submit button from refreshing the page
     event.preventDefault();
 
-    // Call auth login endpoint to log user in
-    try {
-      const response = await axios.post('/auth/login', data);
+    // Clear data from registration form
+    reset();
 
-      if (response.status === 200) {
-        setAuthID(response.data);
-        navigate('/dashboard');
-      }
+    try {
+      // Log user in
+      const res = await axios.post('/auth/login', data);
+      setAuthID(res.data);
+
+      // Redirect them to their dashboard
+      navigate('/dashboard');
     } catch (error) {
       if (error.response.status === 401) {
         // Display login error message
@@ -38,9 +40,6 @@ const Login = ({ setAuthID }) => {
         navigate('/error');
       }
     }
-
-    // Clear data from form input fields
-    reset();
   }
 
   return ( 
@@ -88,7 +87,7 @@ const Login = ({ setAuthID }) => {
         {/* Sign in Button */}
         <div>
           <button type="submit"
-                  className="bg-rose-500 hover:bg-rose-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                  className="bg-rose-light hover:bg-rose-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             Sign In
           </button>
         </div>
@@ -97,4 +96,4 @@ const Login = ({ setAuthID }) => {
   );
 }
  
-export default Login;
+export default SignIn;

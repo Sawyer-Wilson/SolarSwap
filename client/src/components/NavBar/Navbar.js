@@ -4,13 +4,12 @@ import QuickActions from "./QuickActions";
 
 // navbar links
 const navLinks = [
-  { name: 'Home', path: '/'},
-  { name: 'Energy Listings', path: '/buyer'},
-  { name: 'Sellers', path: '/seller'}
+  { name: 'I want Solar', path: '/i-want-solar'},
+  { name: 'I have Solar', path: '/i-have-solar'}
 ]
 
 // navigation bar component
-const Navbar = ({ authID, setAuthID }) => {
+const Navbar = ({ authID, setAuthID, listing, listingStatus, setListingStatus }) => {
   return ( 
     <nav className="bg-gray-800 mx-auto px-6 h-16 flex justify-between items-center">
 
@@ -18,9 +17,10 @@ const Navbar = ({ authID, setAuthID }) => {
       <div className="flex space-x-4 items-center">
 
         {/* Logo */}
-        <div className="px-3 py-2 text-white text-xl font-medium">
-          <p>SolarSwap</p>
-        </div>
+        <NavLink to="/" 
+                 className='text-white px-3 py-2 text-xl font-medium hover:text-gray-300'>
+          SolarSwap
+        </NavLink>
 
         {/* Main Nav Bar Links */}
         <div className="flex space-x-4">
@@ -38,7 +38,9 @@ const Navbar = ({ authID, setAuthID }) => {
       </div>
 
       {/* Display either Profile dropdown or Quick Actions */}
-      { authID ? <ProfileDropdown setAuthID={ setAuthID }/> : <QuickActions/> }
+      { authID ? <ProfileDropdown authID={ authID } setAuthID={ setAuthID } 
+                                  listing={ listing } listingStatus={ listingStatus }
+                                  setListingStatus={ setListingStatus }/> : <QuickActions/> }
     </nav>
    );
 }
