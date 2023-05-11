@@ -25,7 +25,7 @@ const IWantSolar = () => {
   return ( 
     <div className="flex flex-col space-y-4">
       {/* Title */}
-      <p className="text-6xl font-bold text-gray-800 p-12">
+      <p className="text-6xl font-bold text-gray-800 py-12 text-center">
         Find Clean Utility Credit at Discounted Rates
       </p>
       <div className="flex flex-col lg:flex-row space-y-8 lg:space-x-4 lg:space-y-0 items-center lg:items-start lg:justify-center">
